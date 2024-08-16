@@ -1,0 +1,18 @@
+[
+  {
+    "name": "BullGuard",
+    "error": "REMOVE_BULLGUARD"
+  },
+  {
+    "name": "ESET",
+    "error": "REMOVE_ESET"
+  },
+  {
+    "name": "Overwolf",
+    "error": "DISABLE_OVERLAYS"
+  },
+  {
+    "name": "OneDrive",
+    "error": "REMOVE_ONEDRIVE"
+  }
+]
