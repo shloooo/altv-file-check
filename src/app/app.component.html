@@ -191,28 +191,33 @@
                 <br *ngIf="errors.includes('FILE_HASH_DOES_NOT_MATCH')">
                 <span *ngIf="errors.includes('FILE_HASH_DOES_NOT_MATCH')">
                     <strong>FILE_HASH_DOES_NOT_MATCH</strong> means that the hash of the file does not match the original ones.<br>
-                    Possible solutions:<br>
-                    <ul>
-                        <li>Verify the game integrity</li>
-                    </ul>
+                    <app-collapsible-span title="Possible solutions:">
+                        <ul>
+                            <li>Verify the game integrity</li>
+                        </ul>
+                    </app-collapsible-span>
+                    <br>
                 </span>
                 <span *ngIf="errors.includes('FILE_UNKNOWN')">
                     <strong>FILE_UNKNOWN</strong> means that the file is not known. Files that belong to Epic Games or Steam can be ignored.<br>
-                    Possible solutions:<br>
-                    <ul>
-                        <li>Remove the file</li>
-                        <li>Verify the game integrity</li>
-                    </ul>
+                    <app-collapsible-span title="Possible solutions:">
+                        <ul>
+                            <li>Remove the file</li>
+                            <li>Verify the game integrity</li>
+                        </ul>
+                    </app-collapsible-span>
+                    <br>
                 </span>
             </div>
-            <br *ngIf="output != undefined">
             <div *ngIf="output != undefined">
-                @for (item of output; track item) {
-                    <div>{{item}}</div>
-                }
+                <app-collapsible-span title="Files:">
+                    @for (item of output; track item) {
+                        <div>{{item}}</div>
+                    }
+                </app-collapsible-span>
             </div>
             <p>
-                This “tool” does not belong to alt:V or is a part of it. In case of errors, feel free to open an <a href="https://github.com/shloooo/altv-file-check/issues/new" target="_blank" rel="noopener noreferrer">GitHub Issue</a>.
+                This "tool" does not belong to alt:V or is a part of it. In case of errors, feel free to open an <a href="https://github.com/shloooo/altv-file-check/issues/new" target="_blank" rel="noopener noreferrer">GitHub Issue</a>.
             </p>
         </div>
     </div>

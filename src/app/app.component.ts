@@ -3,11 +3,12 @@ import {RouterOutlet} from '@angular/router';
 import {NgIf} from "@angular/common";
 import {HttpClient} from "@angular/common/http";
 import JSZip from "jszip";
+import {CollapsibleSpanComponent} from "./collapsible-span/collapsible-span.component";
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [RouterOutlet, NgIf],
+    imports: [RouterOutlet, NgIf, CollapsibleSpanComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
