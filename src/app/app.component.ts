@@ -139,7 +139,7 @@ export class AppComponent implements OnInit {
         for (let fileLine of fileLines) {
             if (fileLine.toLowerCase() == 'file;hash' || fileLine.length == 0) continue;
             const file = fileLine.split(';')[0]
-            if (file.includes('.egstore') || file.includes('EOSSDK-Win64-Shipping')) continue;
+            if (file.toLowerCase().includes('.egstore') || file.toLowerCase().includes('redistributables') || file.toLowerCase().includes('eossdk-win64-shipping')) continue;
             const hash = fileLine.split(';')[1]
             const o = this.originalGameFiles.find(x => x.includes(file));
             if (o == undefined || !o.includes(hash)) {
