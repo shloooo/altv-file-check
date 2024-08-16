@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
 
     // ERRORS
     errors: string[] = [];
-
     // ERRORS
 
     constructor(private http: HttpClient,
@@ -42,7 +41,7 @@ export class AppComponent implements OnInit {
     }
 
     async ngOnInit() {
-        await this.loadFile();
+        await this.loadRequiredFiles();
     }
 
     async onFileSelected(event: Event): Promise<void> {
@@ -97,7 +96,7 @@ export class AppComponent implements OnInit {
             }
 
             if (this.isTextReadable(text)) {
-                this.checkFiles(text);
+                this.checkGameFile(text);
             } else {
                 this.message = 'The selected file has no readable text';
                 this.fileCheckOutput = undefined;
@@ -123,7 +122,7 @@ export class AppComponent implements OnInit {
             if (gameFile) {
                 const text = await gameFile.async('text');
                 if (this.isTextReadable(text)) {
-                    await this.checkFiles(text);
+                    await this.checkGameFile(text);
                 } else {
                     this.message = 'The selected ZIP file does not contain a readable game.txt file.';
                     this.fileCheckOutput = undefined;
@@ -141,14 +140,11 @@ export class AppComponent implements OnInit {
         }
     }
 
-    async checkFiles(text: string): Promise<void> {
+    async checkGameFile(text: string): Promise<void> {
         if (this.originalGameFiles == undefined) {
             alert('Could not access original game files')
             return;
         }
-
-        let fails = 0;
-        const detailed = false;
 
         if (!text.toLowerCase().includes('file;hash')) {
             this.fileCheckOutput = undefined;
@@ -165,12 +161,7 @@ export class AppComponent implements OnInit {
             const hash = fileLine.split(';')[1]
             const o = this.originalGameFiles.find(x => x.startsWith(file));
             if (o == undefined || !o.includes(hash)) {
-                fails++;
-                if (detailed) {
-                    console.log(`${file} has an invalid hash! (Should: ${(o != null ? o.split(';')[1] : undefined)} | Is: ${hash})`)
-                } else {
-                    console.log()
-                }
+                console.log(`${file} has an invalid hash! (Should: ${(o != null ? o.split(';')[1] : undefined)} | Is: ${hash})`)
 
                 const tag = o == undefined ? 'FILE_UNKNOWN' : 'FILE_HASH_DOES_NOT_MATCH';
                 if (!this.errors.includes(tag)) {
@@ -188,7 +179,11 @@ export class AppComponent implements OnInit {
         this.fileCheckOutput = this.splitIntoLines(output);
     }
 
-    async loadFile(): Promise<void> {
+    async checkProcessFile(text: string): Promise<void> {
+
+    }
+
+    async loadRequiredFiles(): Promise<void> {
         try {
             const originalGameFiles = await this.http.get('game.txt', {responseType: 'text'}).toPromise();
             if (originalGameFiles == undefined) {
