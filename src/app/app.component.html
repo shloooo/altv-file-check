@@ -186,8 +186,8 @@
             <p>{{ message }}</p>
             <br>
             <input *ngIf="!uploadDisabled" type="file" (change)="onFileSelected($event)" />
-            <br *ngIf="output != undefined">
-            <div class="errors" *ngIf="output != undefined">
+            <br *ngIf="errors.length != 0">
+            <div class="errors" *ngIf="errors.length != 0">
                 <br *ngIf="errors.includes('FILE_HASH_DOES_NOT_MATCH')">
                 <span *ngIf="errors.includes('FILE_HASH_DOES_NOT_MATCH')">
                     <strong>FILE_HASH_DOES_NOT_MATCH</strong> means that the hash of the file does not match the original ones.<br>
@@ -209,10 +209,10 @@
                     <br>
                 </span>
             </div>
-            <div *ngIf="output != undefined">
-                <span *ngIf="output.length == 0">✅ All files valid</span>
-                <app-collapsible-span title="Files:" *ngIf="output.length > 0">
-                    @for (item of output; track item) {
+            <div *ngIf="fileCheckOutput != undefined">
+                <span *ngIf="fileCheckOutput.length == 0">✅ All files valid</span>
+                <app-collapsible-span title="Files:" *ngIf="fileCheckOutput.length > 0">
+                    @for (item of fileCheckOutput; track item) {
                         <div>{{item}}</div>
                     }
                 </app-collapsible-span>
