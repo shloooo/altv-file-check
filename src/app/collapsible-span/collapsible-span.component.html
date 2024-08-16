@@ -1,7 +1,0 @@
-<span (click)="toggle()" class="toggle-span" style="cursor: pointer;">
-  {{ isExpanded ? '▼' : '▲' }} {{ title }}
-</span>
-<br>
-<div [@slideInOut]="contentState" class="content">
-    <ng-content></ng-content>
-</div>
