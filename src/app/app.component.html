@@ -183,12 +183,28 @@
     <div class="content">
         <div class="left-side">
             <h1>Hey! 👋</h1>
-            <p>{{ message }}</p>
+            <p>{{ message | translate }}</p>
             <br>
-            <input *ngIf="!uploadDisabled" type="file" (change)="onFileSelected($event)" />
+            <input *ngIf="!uploadDisabled" type="file" (change)="onFileSelected($event)"/>
             <br *ngIf="errors.length != 0">
             <div class="errors" *ngIf="errors.length != 0">
-                <br *ngIf="errors.includes('NOT_EXTENDED_REPORT')">
+                <br>
+                @for (error of errors; track error) {
+                    <hr>
+                    <span>
+                        {{ 'errors.' + error + '.message' | translate }}<br>
+                        <app-collapsible-span [title]="'possible-solutions' | translate">
+                            <ul>
+                                <li *ngFor="let item of 'errors.' + error + '.possible-solutions' | translate"
+                                [innerHtml]="item | safe:'html'">
+                                </li>
+                            </ul>
+                        </app-collapsible-span>
+                    </span>
+                }
+                <hr>
+
+                <!--<br *ngIf="errors.includes('NOT_EXTENDED_REPORT')">
                 <span *ngIf="errors.includes('NOT_EXTENDED_REPORT')">
                     Please select a extended report for the game file check. (Not required)<br>
                     <app-collapsible-span title="Possible solutions:">
@@ -217,18 +233,23 @@
                         </ul>
                     </app-collapsible-span>
                     <br>
-                </span>
+                </span>-->
             </div>
             <div *ngIf="fileCheckOutput != undefined">
-                <span *ngIf="fileCheckOutput.length == 0">✅ All files valid</span>
-                <app-collapsible-span title="Files:" *ngIf="fileCheckOutput.length > 0">
+                <span *ngIf="fileCheckOutput.length == 0">✅ {{ 'files.all-valid' | translate }}</span>
+                <span *ngIf="fileCheckOutput.length >= 0">❌ {{ 'files.detailed' | translate:{files:filesTotal, failed:fileCheckOutput.length } }}</span>
+                <br *ngIf="fileCheckOutput.length >= 0">
+                <br *ngIf="fileCheckOutput.length >= 0">
+                <app-collapsible-span [title]="'files.title' | translate" *ngIf="fileCheckOutput.length > 0">
                     @for (item of fileCheckOutput; track item) {
-                        <div>{{item}}</div>
+                        <div>{{ item }}</div>
                     }
                 </app-collapsible-span>
             </div>
             <p>
-                This "tool" does not belong to alt:V or is a part of it. In case of errors, feel free to open an <a href="https://github.com/shloooo/altv-file-check/issues/new" target="_blank" rel="noopener noreferrer">GitHub Issue</a>.
+                This "tool" does not belong to alt:V or is a part of it. In case of errors, feel free to open an <a
+                    href="https://github.com/shloooo/altv-file-check/issues/new" target="_blank"
+                    rel="noopener noreferrer">GitHub Issue</a>.
             </p>
         </div>
     </div>

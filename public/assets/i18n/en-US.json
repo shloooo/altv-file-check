@@ -1,0 +1,36 @@
+{
+  "possible-solutions": "Possible solutions:",
+  "files": {
+    "title": "Incorrect files",
+    "detailed": "Done! Checked {{files}} files ({{failed}} failed)",
+    "all-valid": "All files are valid"
+  },
+  "check": {
+    "not-started": "Select a file to have it checked. Either a game.txt or a report directly.",
+    "in-progress": "Loading... (This may take a few seconds)",
+    "failed": "Check has failed",
+    "invalid-file": "The selected file is not valid.",
+    "done": "Check is completed!"
+  },
+  "errors": {
+    "NOT_EXTENDED_REPORT": {
+      "message": "Please select a extended report for the game file check. (Not required)",
+      "possible-solutions": [
+        "Create a <a href=\"altv://action/report?extended=true\">extended report</a> (This may take a while)"
+      ]
+    },
+    "FILE_HASH_DOES_NOT_MATCH": {
+      "message": "FILE_HASH_DOES_NOT_MATCH means that the hash of the file does not match the original ones.",
+      "possible-solutions": [
+        "Verify the game integrity"
+      ]
+    },
+    "FILE_UNKNOWN": {
+      "message": "FILE_UNKNOWN means that the file is not known. (Files that belong to Epic Games or Steam can be ignored)",
+      "possible-solutions": [
+        "Remove the file",
+        "Verify the game integrity"
+      ]
+    }
+  }
+}

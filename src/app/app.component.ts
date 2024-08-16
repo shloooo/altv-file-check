@@ -1,14 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {NgIf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {HttpClient} from "@angular/common/http";
 import JSZip from "jszip";
 import {CollapsibleSpanComponent} from "./collapsible-span/collapsible-span.component";
+import {TranslateModule, TranslateService} from "@ngx-translate/core";
+import {SafePipe} from "../@core/pipes/safe.pipe";
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [RouterOutlet, NgIf, CollapsibleSpanComponent],
+    imports: [RouterOutlet, NgIf, CollapsibleSpanComponent, TranslateModule, NgForOf, SafePipe],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
@@ -17,15 +19,27 @@ export class AppComponent implements OnInit {
     originalGameFiles: string[] | undefined = undefined;
     uploadDisabled: boolean = false;
 
-    message = 'Select a file to have it checked. Either a game.txt or a report directly.';
+    message = 'check.not-started';
 
+    filesTotal: number = 0;
     fileCheckOutput: string[] | undefined = undefined;
 
     // ERRORS
     errors: string[] = [];
+
     // ERRORS
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient,
+                private translate: TranslateService,
+                @Inject(LOCALE_ID) public locale: string) {
+        // Initialize the default language
+        translate.setDefaultLang('en-US');
+        translate.use(locale);
+
+        // Debug language
+        console.log(`Default lang: ${translate.defaultLang}`)
+        console.log(`System lang: ${locale}`)
+    }
 
     async ngOnInit() {
         await this.loadFile();
@@ -44,19 +58,19 @@ export class AppComponent implements OnInit {
 
         const input = event.target as HTMLInputElement;
 
-        this.message = 'Loading file... (This may take a few seconds)';
+        this.message = 'check.in-progress';
         this.errors = [];
         if (input.files && input.files.length > 0) {
             const file = input.files[0];
 
             if (file.type === 'text/plain') {
                 await this.processTextFile(file);
-                this.message = `Done! 🤖`;
+                this.message = `check.done`;
             } else if (file.name.endsWith('.zip')) {
                 await this.processZipFile(file);
-                this.message = `Done! 🤖`;
+                this.message = `check.done`;
             } else {
-                this.message = 'The selected file is not valid.';
+                this.message = 'check.invalid-file';
                 this.fileCheckOutput = undefined;
                 this.errors = [];
             }
@@ -133,8 +147,6 @@ export class AppComponent implements OnInit {
             return;
         }
 
-        this.message = 'Checking now files... (This may take a few seconds)';
-
         let fails = 0;
         const detailed = false;
 
@@ -149,7 +161,7 @@ export class AppComponent implements OnInit {
         for (let fileLine of fileLines) {
             if (fileLine.toLowerCase() == 'file;hash' || fileLine.length == 0) continue;
             const file = fileLine.split(';')[0]
-            if (file.toLowerCase().includes('.egstore') || file.toLowerCase().includes('redistributables') || file.toLowerCase().includes('eossdk-win64-shipping')) continue;
+            if (file.toLowerCase().includes('.egstore') || file.toLowerCase().includes('redistributables') || file.toLowerCase().includes('readme') || file.toLowerCase().includes('eossdk-win64-shipping')) continue;
             const hash = fileLine.split(';')[1]
             const o = this.originalGameFiles.find(x => x.startsWith(file));
             if (o == undefined || !o.includes(hash)) {
@@ -168,6 +180,7 @@ export class AppComponent implements OnInit {
             }
         }
 
+        this.filesTotal = fileLines.length;
         if (output.length == 0) {
             this.fileCheckOutput = [];
             return;
@@ -177,7 +190,7 @@ export class AppComponent implements OnInit {
 
     async loadFile(): Promise<void> {
         try {
-            const originalGameFiles = await this.http.get('game.txt', { responseType: 'text' }).toPromise();
+            const originalGameFiles = await this.http.get('game.txt', {responseType: 'text'}).toPromise();
             if (originalGameFiles == undefined) {
                 this.message = 'game.txt has no readable text';
                 this.fileCheckOutput = undefined;

@@ -1,0 +1,36 @@
+{
+  "possible-solutions": "Mögliche Lösungen:",
+  "files": {
+    "title": "Fehlerhafte Datein",
+    "detailed": "Erledigt! Überprüfte {{files}} Dateien ({{failed}} fehlgeschlagen)",
+    "all-valid": "Alle Datein sind gültig"
+  },
+  "check": {
+    "not-started": "Wähle eine Datei aus, um sie überprüfen zu lassen. Entweder eine game.txt oder direkt einen Report.",
+    "in-progress": "Verarbeite... (Dies kann ein paar Sekunden dauern)",
+    "failed": "Prüfung ist fehlgeschlagen",
+    "invalid-file": "Die ausgewählte Datei ist nicht gültig.",
+    "done": "Prüfung abgeschlossen"
+  },
+  "errors": {
+    "NOT_EXTENDED_REPORT": {
+      "message": "Bitte erstelle einen erweiterten Report um das Spiel überprüfen zu lassen. (Optional)",
+      "possible-solutions": [
+        "Erstelle einen <a href=\"altv://action/report?extended=true\">erweiterten Report</a> (Dies könnte eine Weile dauern)"
+      ]
+    },
+    "FILE_HASH_DOES_NOT_MATCH": {
+      "message": "FILE_HASH_DOES_NOT_MATCH bedeutet das möglicherweise einige Datein nicht mit der originalen Datein übereinstimmen.",
+      "possible-solutions": [
+        "Überprüfen der Spielintegrität"
+      ]
+    },
+    "FILE_UNKNOWN": {
+      "message": "FILE_UNKNOWN bedeutet das die Datei nicht zum Spiel dazugehört. (Steam oder Epic Games Datein können ignoriert werden)",
+      "possible-solutions": [
+        "Datei entfernen",
+        "Überprüfen der Spielintegrität"
+      ]
+    }
+  }
+}
