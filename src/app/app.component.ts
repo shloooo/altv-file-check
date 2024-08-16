@@ -18,7 +18,8 @@ export class AppComponent implements OnInit {
     uploadDisabled: boolean = false;
 
     message = 'Select a file to have it checked. Either a game.txt or a report directly.';
-    output: string[] | undefined = undefined;
+
+    fileCheckOutput: string[] | undefined = undefined;
 
     // ERRORS
     errors: string[] = [];
@@ -44,16 +45,19 @@ export class AppComponent implements OnInit {
         const input = event.target as HTMLInputElement;
 
         this.message = 'Loading file... (This may take a few seconds)';
+        this.errors = [];
         if (input.files && input.files.length > 0) {
             const file = input.files[0];
 
             if (file.type === 'text/plain') {
                 await this.processTextFile(file);
+                this.message = `Done! 🤖`;
             } else if (file.name.endsWith('.zip')) {
                 await this.processZipFile(file);
+                this.message = `Done! 🤖`;
             } else {
                 this.message = 'The selected file is not valid.';
-                this.output = undefined;
+                this.fileCheckOutput = undefined;
                 this.errors = [];
             }
         }
@@ -82,14 +86,14 @@ export class AppComponent implements OnInit {
                 this.checkFiles(text);
             } else {
                 this.message = 'The selected file has no readable text';
-                this.output = undefined;
+                this.fileCheckOutput = undefined;
                 this.errors = [];
             }
         };
 
         reader.onerror = () => {
             this.message = 'An error occurred while reading the text';
-            this.output = undefined;
+            this.fileCheckOutput = undefined;
             this.errors = [];
         };
 
@@ -108,17 +112,17 @@ export class AppComponent implements OnInit {
                     await this.checkFiles(text);
                 } else {
                     this.message = 'The selected ZIP file does not contain a readable game.txt file.';
-                    this.output = undefined;
+                    this.fileCheckOutput = undefined;
                     this.errors = [];
                 }
             } else {
                 this.message = 'The ZIP file does not contain a game.txt file.';
-                this.output = undefined;
+                this.fileCheckOutput = undefined;
                 this.errors = [];
             }
         } catch (error) {
             this.message = 'An error occurred while reading the ZIP file: ' + (error as Error).message;
-            this.output = undefined;
+            this.fileCheckOutput = undefined;
             this.errors = [];
         }
     }
@@ -130,10 +134,15 @@ export class AppComponent implements OnInit {
         }
 
         this.message = 'Checking now files... (This may take a few seconds)';
-        this.errors = [];
 
         let fails = 0;
         const detailed = false;
+
+        if (!text.toLowerCase().includes('file;hash')) {
+            this.fileCheckOutput = undefined;
+            this.errors.push('NOT_EXTENDED_REPORT')
+            return;
+        }
 
         let output = '';
         const fileLines = this.splitIntoLines(text);
@@ -159,12 +168,11 @@ export class AppComponent implements OnInit {
             }
         }
 
-        this.message = `Done! Checked ${fileLines.length} files (${fails} failed)`;
         if (output.length == 0) {
-            this.output = [];
+            this.fileCheckOutput = [];
             return;
         }
-        this.output = this.splitIntoLines(output);
+        this.fileCheckOutput = this.splitIntoLines(output);
     }
 
     async loadFile(): Promise<void> {
@@ -172,7 +180,7 @@ export class AppComponent implements OnInit {
             const originalGameFiles = await this.http.get('game.txt', { responseType: 'text' }).toPromise();
             if (originalGameFiles == undefined) {
                 this.message = 'game.txt has no readable text';
-                this.output = undefined;
+                this.fileCheckOutput = undefined;
                 this.errors = [];
                 this.uploadDisabled = true;
                 return;
@@ -182,7 +190,7 @@ export class AppComponent implements OnInit {
                 this.originalGameFiles = this.splitIntoLines(originalGameFiles);
             } else {
                 this.message = 'game.txt has no readable text';
-                this.output = undefined;
+                this.fileCheckOutput = undefined;
                 this.errors = [];
             }
         } catch (error) {

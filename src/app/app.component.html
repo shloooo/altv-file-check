@@ -188,6 +188,16 @@
             <input *ngIf="!uploadDisabled" type="file" (change)="onFileSelected($event)" />
             <br *ngIf="errors.length != 0">
             <div class="errors" *ngIf="errors.length != 0">
+                <br *ngIf="errors.includes('NOT_EXTENDED_REPORT')">
+                <span *ngIf="errors.includes('NOT_EXTENDED_REPORT')">
+                    Please select a extended report for the game file check. (Not required)<br>
+                    <app-collapsible-span title="Possible solutions:">
+                        <ul>
+                            <li>Create a <a href="altv://action/report?extended=true">extended report</a> (This may take a while)</li>
+                        </ul>
+                    </app-collapsible-span>
+                    <br>
+                </span>
                 <br *ngIf="errors.includes('FILE_HASH_DOES_NOT_MATCH')">
                 <span *ngIf="errors.includes('FILE_HASH_DOES_NOT_MATCH')">
                     <strong>FILE_HASH_DOES_NOT_MATCH</strong> means that the hash of the file does not match the original ones.<br>
