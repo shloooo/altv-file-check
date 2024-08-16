@@ -1,9 +1,14 @@
 {
+  "show-errors": "Show errors",
   "possible-solutions": "Possible solutions:",
-  "files": {
+  "game-file-check": {
     "title": "Incorrect files",
     "detailed": "Done! Checked {{files}} files ({{failed}} failed)",
     "all-valid": "All files are valid"
+  },
+  "processes-check": {
+    "detailed": "Done! Checked {{processes}} processes ({{failed}} failed)",
+    "all-valid": "All processes are valid"
   },
   "check": {
     "not-started": "Select a file to have it checked. Either a game.txt or a report directly.",
@@ -14,7 +19,7 @@
   },
   "errors": {
     "NOT_EXTENDED_REPORT": {
-      "message": "Please select a extended report for the game file check. (Not required)",
+      "message": "The game file check could not be performed because the report or the selected file does not originate from an extended report.",
       "possible-solutions": [
         "Create a <a href=\"altv://action/report?extended=true\">extended report</a> (This may take a while)"
       ]
@@ -30,6 +35,36 @@
       "possible-solutions": [
         "Remove the file",
         "Verify the game integrity"
+      ]
+    },
+    "REMOVE_BULLGUARD": {
+      "message": "BullGuard blocks alt:V from running on your System",
+      "possible-solutions": [
+        "Uninstall BullGuard"
+      ]
+    },
+    "REMOVE_ESET": {
+      "message": "ESET blocks alt:V from running on your System",
+      "possible-solutions": [
+        "Uninstall ESET"
+      ]
+    },
+    "DISABLE_OVERLAYS": {
+      "message": "Overlays like Overwolf cause alt:V to crash after few seconds/minutes after launch",
+      "possible-solutions": [
+        "Disable Overlays like Overwolf, Discord Overlay, Nvidia Overlay etc."
+      ]
+    },
+    "REMOVE_ONEDRIVE": {
+      "message": "OneDrive cause errors with the Rockstar Games Launcher",
+      "possible-solutions": [
+        "Remove OneDrive from your system"
+      ]
+    },
+    "EXAMPLE": {
+      "message": "Example",
+      "possible-solutions": [
+        "Example"
       ]
     }
   }

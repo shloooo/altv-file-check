@@ -17,12 +17,19 @@ import {SafePipe} from "../@core/pipes/safe.pipe";
 export class AppComponent implements OnInit {
 
     originalGameFiles: string[] | undefined = undefined;
+    originalProcesses: {name:string;error:string;}[] = [];
     uploadDisabled: boolean = false;
 
     message = 'check.not-started';
 
+    // game.txt check
     filesTotal: number = 0;
     fileCheckOutput: string[] | undefined = undefined;
+
+    // processes.txt check
+    processesChecked: boolean = false;
+    processesChecked2: number = 0;
+    processesFailed: number = 0;
 
     // ERRORS
     errors: string[] = [];
@@ -59,6 +66,7 @@ export class AppComponent implements OnInit {
 
         this.message = 'check.in-progress';
         this.errors = [];
+        this.processesChecked = false;
         if (input.files && input.files.length > 0) {
             const file = input.files[0];
 
@@ -96,7 +104,13 @@ export class AppComponent implements OnInit {
             }
 
             if (this.isTextReadable(text)) {
-                this.checkGameFile(text);
+                if (file.name.toLowerCase() == 'game.txt') {
+                    this.checkGameFile(text);
+                } else if (file.name.toLowerCase() == 'processes.txt') {
+                    this.checkProcessesFile(text)
+                } else {
+                    this.message = 'Invalid .txt action';
+                }
             } else {
                 this.message = 'The selected file has no readable text';
                 this.fileCheckOutput = undefined;
@@ -117,21 +131,39 @@ export class AppComponent implements OnInit {
         try {
             const zip = new JSZip();
             const zipContent = await zip.loadAsync(file);
-            const gameFile = zipContent.file('game.txt');
 
-            if (gameFile) {
-                const text = await gameFile.async('text');
-                if (this.isTextReadable(text)) {
-                    await this.checkGameFile(text);
+            // game.txt
+            {
+                const gameFile = zipContent.file('game.txt');
+                if (gameFile) {
+                    const text = await gameFile.async('text');
+                    if (this.isTextReadable(text)) {
+                        await this.checkGameFile(text);
+                    } else {
+                        this.message = 'The selected ZIP file does not contain a readable game.txt file.';
+                        this.fileCheckOutput = undefined;
+                        this.errors = [];
+                    }
                 } else {
-                    this.message = 'The selected ZIP file does not contain a readable game.txt file.';
+                    this.message = 'The ZIP file does not contain a game.txt file.';
+                }
+            }
+
+            // processes.txt
+            {
+                const processes = zipContent.file('processes.txt');
+                if (processes) {
+                    const text = await processes.async('text');
+                    if (this.isTextReadable(text)) {
+                        await this.checkProcessesFile(text);
+                    } else {
+                        this.message = 'The selected ZIP file does not contain a readable processes.txt file.';
+                    }
+                } else {
+                    this.message = 'The ZIP file does not contain a game.txt file.';
                     this.fileCheckOutput = undefined;
                     this.errors = [];
                 }
-            } else {
-                this.message = 'The ZIP file does not contain a game.txt file.';
-                this.fileCheckOutput = undefined;
-                this.errors = [];
             }
         } catch (error) {
             this.message = 'An error occurred while reading the ZIP file: ' + (error as Error).message;
@@ -179,30 +211,69 @@ export class AppComponent implements OnInit {
         this.fileCheckOutput = this.splitIntoLines(output);
     }
 
-    async checkProcessFile(text: string): Promise<void> {
-
+    async checkProcessesFile(text: string): Promise<void> {
+        this.processesChecked = true;
+        this.processesChecked2 = 0;
+        this.processesFailed = 0;
+        const fileLines = this.splitIntoLines(text);
+        for (let fileLine of fileLines) {
+            const error = this.originalProcesses.find(s => fileLine.toLowerCase().includes(s.name.toLowerCase()));
+            this.processesChecked2++;
+            if (error == undefined) continue;
+            this.processesFailed++;
+            if (!this.errors.includes(error.error)) {
+                this.errors.push(error.error);
+            }
+        }
     }
 
     async loadRequiredFiles(): Promise<void> {
         try {
-            const originalGameFiles = await this.http.get('game.txt', {responseType: 'text'}).toPromise();
-            if (originalGameFiles == undefined) {
-                this.message = 'game.txt has no readable text';
-                this.fileCheckOutput = undefined;
-                this.errors = [];
-                this.uploadDisabled = true;
-                return;
+            // game.txt
+            {
+                const originalGameFiles = await this.http.get('https://raw.githubusercontent.com/shloooo/altv-file-check/data-files/game.txt', {responseType: 'text'}).toPromise();
+                if (originalGameFiles == undefined) {
+                    this.message = 'game.txt has no readable text';
+                    this.fileCheckOutput = undefined;
+                    this.errors = [];
+                    this.uploadDisabled = true;
+                    return;
+                }
+
+                if (this.isTextReadable(originalGameFiles)) {
+                    this.originalGameFiles = this.splitIntoLines(originalGameFiles);
+                } else {
+                    this.message = 'game.txt has no readable text';
+                    this.fileCheckOutput = undefined;
+                    this.errors = [];
+                    this.uploadDisabled = true;
+                    return;
+                }
             }
 
-            if (this.isTextReadable(originalGameFiles)) {
-                this.originalGameFiles = this.splitIntoLines(originalGameFiles);
-            } else {
-                this.message = 'game.txt has no readable text';
-                this.fileCheckOutput = undefined;
-                this.errors = [];
+            // process.json
+            {
+                const originalProcesses = await this.http.get('https://raw.githubusercontent.com/shloooo/altv-file-check/data-files/process.json', {responseType: 'text'}).toPromise();
+                if (originalProcesses == undefined) {
+                    this.message = 'process.json has no readable text';
+                    this.fileCheckOutput = undefined;
+                    this.errors = [];
+                    this.uploadDisabled = true;
+                    return;
+                }
+
+                try {
+                    this.originalProcesses = JSON.parse(originalProcesses)
+                } catch (e) {
+                    this.message = 'Could not load process.json';
+                    this.fileCheckOutput = undefined;
+                    this.errors = [];
+                    this.uploadDisabled = true;
+                    return;
+                }
             }
         } catch (error) {
-            this.message = 'Could not load game.txt file: ' + (error as Error).message;
+            this.message = 'Could not load required files: ' + (error as Error).message;
             this.uploadDisabled = true;
         }
     }

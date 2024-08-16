@@ -29,8 +29,7 @@ import {NgIf} from "@angular/common";
 export class CollapsibleSpanComponent {
 
     @Input() title: string | undefined;
-
-    isExpanded: boolean = false;
+    @Input() isExpanded: boolean = false;
 
     toggle() {
         this.isExpanded = !this.isExpanded;

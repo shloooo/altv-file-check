@@ -1,9 +1,14 @@
 {
+  "show-errors": "Fehler anzeigen",
   "possible-solutions": "Mögliche Lösungen:",
-  "files": {
+  "game-file-check": {
     "title": "Fehlerhafte Datein",
     "detailed": "Erledigt! Überprüfte {{files}} Dateien ({{failed}} fehlgeschlagen)",
     "all-valid": "Alle Datein sind gültig"
+  },
+  "processes-check": {
+    "detailed": "Erledigt! Überprüfte {{processes}} Prozesse ({{failed}} fehlgeschlagen)",
+    "all-valid": "Alle Prozesse sind gültig"
   },
   "check": {
     "not-started": "Wähle eine Datei aus, um sie überprüfen zu lassen. Entweder eine game.txt oder direkt einen Report.",
@@ -14,7 +19,7 @@
   },
   "errors": {
     "NOT_EXTENDED_REPORT": {
-      "message": "Bitte erstelle einen erweiterten Report um das Spiel überprüfen zu lassen. (Optional)",
+      "message": "Der Spieldatei Check konnte nicht durchgeführt werden, da der Report oder die gewählte Datei nicht von einem erweitertem Report stammt.",
       "possible-solutions": [
         "Erstelle einen <a href=\"altv://action/report?extended=true\">erweiterten Report</a> (Dies könnte eine Weile dauern)"
       ]
@@ -30,6 +35,36 @@
       "possible-solutions": [
         "Datei entfernen",
         "Überprüfen der Spielintegrität"
+      ]
+    },
+    "REMOVE_BULLGUARD": {
+      "message": "BullGuard blockt alt:V",
+      "possible-solutions": [
+        "Deinstalliere BullGuard"
+      ]
+    },
+    "REMOVE_ESET": {
+      "message": "ESET blockt alt:V",
+      "possible-solutions": [
+        "Deinstalliere ESET"
+      ]
+    },
+    "DISABLE_OVERLAYS": {
+      "message": "Overlays wie Overwolf lässt alt:V nach einigen Sekunden oder Minuten crashen",
+      "possible-solutions": [
+        "Deaktiviere Overlays wie Overwolf, Discord Overlay, Nvidia Overlay etc."
+      ]
+    },
+    "REMOVE_ONEDRIVE": {
+      "message": "OneDrive löst Probleme beim Rockstar Games Launcher aus",
+      "possible-solutions": [
+        "Deinstalliere OneDrive"
+      ]
+    },
+    "EXAMPLE": {
+      "message": "Example",
+      "possible-solutions": [
+        "Example"
       ]
     }
   }
