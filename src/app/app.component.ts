@@ -142,7 +142,7 @@ export class AppComponent implements OnInit {
             const file = fileLine.split(';')[0]
             if (file.toLowerCase().includes('.egstore') || file.toLowerCase().includes('redistributables') || file.toLowerCase().includes('eossdk-win64-shipping')) continue;
             const hash = fileLine.split(';')[1]
-            const o = this.originalGameFiles.find(x => x.includes(file));
+            const o = this.originalGameFiles.find(x => x.startsWith(file));
             if (o == undefined || !o.includes(hash)) {
                 fails++;
                 if (detailed) {
@@ -160,6 +160,10 @@ export class AppComponent implements OnInit {
         }
 
         this.message = `Done! Checked ${fileLines.length} files (${fails} failed)`;
+        if (output.length == 0) {
+            this.output = [];
+            return;
+        }
         this.output = this.splitIntoLines(output);
     }
 

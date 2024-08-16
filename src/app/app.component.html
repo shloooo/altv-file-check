@@ -210,7 +210,8 @@
                 </span>
             </div>
             <div *ngIf="output != undefined">
-                <app-collapsible-span title="Files:">
+                <span *ngIf="output.length == 0">✅ All files valid</span>
+                <app-collapsible-span title="Files:" *ngIf="output.length > 0">
                     @for (item of output; track item) {
                         <div>{{item}}</div>
                     }
