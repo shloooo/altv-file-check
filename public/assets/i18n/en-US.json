@@ -38,15 +38,15 @@
       ]
     },
     "REMOVE_BULLGUARD": {
-      "message": "BullGuard blocks alt:V from running on your System",
+      "message": "BullGuard blocks alt:V from running on your system",
       "possible-solutions": [
-        "Uninstall BullGuard"
+        "Remove BullGuard from your system"
       ]
     },
     "REMOVE_ESET": {
-      "message": "ESET blocks alt:V from running on your System",
+      "message": "ESET blocks alt:V from running on your system",
       "possible-solutions": [
-        "Uninstall ESET"
+        "Remove ESET from your system"
       ]
     },
     "DISABLE_OVERLAYS": {
@@ -59,6 +59,13 @@
       "message": "OneDrive cause errors with the Rockstar Games Launcher",
       "possible-solutions": [
         "Remove OneDrive from your system"
+      ]
+    },
+    "REMOVE_OR_DISABLE_AVIRA": {
+      "message": "Avira might blocks alt:V from running on your system",
+      "possible-solutions": [
+        "Remove avira from your system",
+        "Add alt:V as an exception for Avira"
       ]
     },
     "EXAMPLE": {

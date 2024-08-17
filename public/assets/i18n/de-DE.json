@@ -61,6 +61,13 @@
         "Deinstalliere OneDrive"
       ]
     },
+    "REMOVE_OR_DISABLE_AVIRA": {
+      "message": "Avira blockiert möglicherweise die Ausführung von alt:V auf deinem System",
+      "possible-solutions": [
+        "Deinstalliere Avira",
+        "Füge alt:V als Ausnahme bei Avira hinzu"
+      ]
+    },
     "EXAMPLE": {
       "message": "Example",
       "possible-solutions": [
