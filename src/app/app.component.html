@@ -209,7 +209,7 @@
             <hr *ngIf="fileCheckOutput != undefined">
             <div *ngIf="fileCheckOutput != undefined">
                 <span *ngIf="fileCheckOutput.length == 0">✅ {{ 'game-file-check.all-valid' | translate }}</span>
-                <span *ngIf="fileCheckOutput.length > 0">❌ {{ 'game-file-check.detailed' | translate:{files:filesTotal, failed:fileCheckOutput.length } }}</span>
+                <span *ngIf="fileCheckOutput.length > 0">❌ {{ 'game-file-check.detailed' | translate:{files:filesTotal, failed:fileErrors } }}</span>
                 <br *ngIf="fileCheckOutput.length > 0">
                 <br *ngIf="fileCheckOutput.length > 0">
                 <app-collapsible-span [title]="'game-file-check.title' | translate" *ngIf="fileCheckOutput.length > 0">

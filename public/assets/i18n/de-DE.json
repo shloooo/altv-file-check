@@ -68,6 +68,18 @@
         "Füge alt:V als Ausnahme bei Avira hinzu"
       ]
     },
+    "RESHADE_DETECTED": {
+      "message": "Reshade wurde im Spielordner erkannt",
+      "possible-solutions": [
+        "Entferne Reshade aus dem Spielordner und pack ihn stattdessen in den alt:V Mods Ordner"
+      ]
+    },
+    "ENB_DETECTED": {
+      "message": "ENB wurde im Spielordner erkannt",
+      "possible-solutions": [
+        "Entferne ENB aus dem Spielordner und pack ihn stattdessen in den alt:V Mods Ordner"
+      ]
+    },
     "EXAMPLE": {
       "message": "Example",
       "possible-solutions": [

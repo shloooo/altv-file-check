@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
     message = 'check.not-started';
 
     // game.txt check
+    fileErrors: number = 0;
     filesTotal: number = 0;
     fileCheckOutput: string[] | undefined = undefined;
 
@@ -185,11 +186,26 @@ export class AppComponent implements OnInit {
         }
 
         let output = '';
+        let fileErrors = 0;
         const fileLines = this.splitIntoLines(text);
         for (let fileLine of fileLines) {
             if (fileLine.toLowerCase() == 'file;hash' || fileLine.length == 0) continue;
             const file = fileLine.split(';')[0]
             if (file.toLowerCase().includes('.egstore') || file.toLowerCase().includes('redistributables') || file.toLowerCase().includes('readme') || file.toLowerCase().includes('eossdk-win64-shipping')) continue;
+            if (file.toLowerCase().includes('reshade')) {
+                if (!this.errors.includes('RESHADE_DETECTED')) {
+                    this.errors.push('RESHADE_DETECTED');
+                }
+                fileErrors++;
+                continue;
+            }
+            if (file.toLowerCase().includes('enb')) {
+                if (!this.errors.includes('ENB_DETECTED')) {
+                    this.errors.push('ENB_DETECTED');
+                }
+                fileErrors++;
+                continue;
+            }
             const hash = fileLine.split(';')[1]
             const o = this.originalGameFiles.find(x => x.startsWith(file));
             if (o == undefined || !o.includes(hash)) {
@@ -200,9 +216,11 @@ export class AppComponent implements OnInit {
                     this.errors.push(tag);
                 }
                 output += `${file} (${tag})\n`
+                fileErrors++;
             }
         }
 
+        this.fileErrors = fileErrors;
         this.filesTotal = fileLines.length;
         if (output.length == 0) {
             this.fileCheckOutput = [];

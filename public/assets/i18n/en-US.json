@@ -68,6 +68,18 @@
         "Add alt:V as an exception for Avira"
       ]
     },
+    "RESHADE_DETECTED": {
+      "message": "Reshade was recognized in the game folder",
+      "possible-solutions": [
+        "Remove Reshade from the game folder and put it in the alt:V Mods folder instead"
+      ]
+    },
+    "ENB_DETECTED": {
+      "message": "ENB was recognized in the game folder",
+      "possible-solutions": [
+        "Remove ENB from the game folder and put it in the alt:V Mods folder instead"
+      ]
+    },
     "EXAMPLE": {
       "message": "Example",
       "possible-solutions": [
