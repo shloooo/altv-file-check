@@ -277,4 +277,13 @@ export class AppComponent implements OnInit {
             this.uploadDisabled = true;
         }
     }
+
+    async hasValidPossibleSolutions(key: string) {
+        try {
+            const x = await this.translate.get(`errors.${key}.possible-solutions`).toPromise();
+            return x != undefined;
+        } catch (e) {
+            return false;
+        }
+    }
 }
