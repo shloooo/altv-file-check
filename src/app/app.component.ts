@@ -1,6 +1,6 @@
 import {Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {NgForOf, NgIf} from "@angular/common";
+import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {HttpClient} from "@angular/common/http";
 import JSZip from "jszip";
 import {CollapsibleSpanComponent} from "./collapsible-span/collapsible-span.component";
@@ -10,7 +10,7 @@ import {SafePipe} from "../@core/pipes/safe.pipe";
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [RouterOutlet, NgIf, CollapsibleSpanComponent, TranslateModule, NgForOf, SafePipe],
+    imports: [RouterOutlet, NgIf, CollapsibleSpanComponent, TranslateModule, NgForOf, SafePipe, AsyncPipe],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
@@ -278,12 +278,15 @@ export class AppComponent implements OnInit {
         }
     }
 
-    async hasValidPossibleSolutions(key: string) {
-        try {
-            const x = await this.translate.get(`errors.${key}.possible-solutions`).toPromise();
-            return x != undefined;
-        } catch (e) {
-            return false;
-        }
+    getTranslatedArray(key: string): string[] {
+        let translatedArray: string[] = [];
+
+        this.translate.get(key).subscribe((res: any) => {
+            if (res && Array.isArray(res)) {
+                translatedArray = res;
+            }
+        });
+
+        return translatedArray;
     }
 }

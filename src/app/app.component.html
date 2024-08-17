@@ -195,8 +195,8 @@
                         <span>
                         {{ 'errors.' + error + '.message' | translate }}<br>
                         <app-collapsible-span [title]="'possible-solutions' | translate">
-                            <ul *ngIf="hasValidPossibleSolutions(error)">
-                                <li *ngFor="let item of 'errors.' + error + '.possible-solutions' | translate"
+                            <ul>
+                                <li *ngFor="let item of getTranslatedArray('errors.' + error + '.possible-solutions')"
                                     [innerHtml]="item | safe:'html'">
                                 </li>
                             </ul>
