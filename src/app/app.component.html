@@ -117,7 +117,6 @@
         border-radius: 2.75rem;
         border: 0;
         transition: background 0.3s ease;
-        font-family: var(--inter-font);
         font-size: 0.875rem;
         font-style: normal;
         font-weight: 500;
@@ -207,18 +206,18 @@
                 <br>
             </div>
             <hr *ngIf="checked">
-            <div *ngIf="checked && fileCheckOutput != undefined">
-                <span *ngIf="fileCheckOutput.length == 0">✅ {{ 'game-file-check.all-valid' | translate }}</span>
-                <span *ngIf="fileCheckOutput.length > 0">❌ {{ 'game-file-check.detailed' | translate:{files:filesTotal, failed:fileErrors } }}</span>
-                <br *ngIf="fileCheckOutput.length > 0">
-                <br *ngIf="fileCheckOutput.length > 0">
-                <app-collapsible-span [title]="'game-file-check.title' | translate" *ngIf="fileCheckOutput.length > 0">
-                    @for (item of fileCheckOutput; track item) {
+            <div *ngIf="checked && gameFileCheckOutput != undefined">
+                <span *ngIf="gameFileCheckOutput.length == 0">✅ {{ 'game-file-check.all-valid' | translate }}</span>
+                <span *ngIf="gameFileCheckOutput.length > 0">❌ {{ 'game-file-check.detailed' | translate:{files:gameFilesTotal, failed:gameFileErrors } }}</span>
+                <br *ngIf="gameFileCheckOutput.length > 0">
+                <br *ngIf="gameFileCheckOutput.length > 0">
+                <app-collapsible-span [title]="'game-file-check.title' | translate" *ngIf="gameFileCheckOutput.length > 0">
+                    @for (item of gameFileCheckOutput; track item) {
                         <div>{{ item }}</div>
                     }
                 </app-collapsible-span>
             </div>
-            <div *ngIf="checked && fileCheckOutput == undefined">
+            <div *ngIf="checked && gameFileCheckOutput == undefined">
                 <span>❌ {{ 'game-file-check.not-available' | translate }}</span>
             </div>
             <hr *ngIf="checked">
@@ -228,6 +227,14 @@
             </div>
             <div *ngIf="checked && !processesChecked">
                 <span>❌ {{ 'processes-check.not-available' | translate }}</span>
+            </div>
+            <hr *ngIf="checked">
+            <div *ngIf="checked && clientChecked">
+                <span *ngIf="clientFailed == 0">✅ {{ 'client-check.all-valid' | translate }}</span>
+                <span *ngIf="clientFailed > 0">❌ {{ 'client-check.detailed' | translate:{failed:clientFailed} }}</span>
+            </div>
+            <div *ngIf="checked && !clientChecked">
+                <span>❌ {{ 'client-check.not-available' | translate }}</span>
             </div>
             <p>
                 This "tool" does not belong to alt:V or is a part of it. In case of errors, feel free to open an <a

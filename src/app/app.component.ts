@@ -18,20 +18,25 @@ export class AppComponent implements OnInit {
 
     originalGameFiles: string[] | undefined = undefined;
     originalProcesses: {name:string;error:string;}[] = [];
+    originalClient: {name:string;error:string;}[] = [];
     uploadDisabled: boolean = false;
     checked: boolean = false;
 
     message = 'check.not-started';
 
     // game.txt check
-    fileErrors: number = 0;
-    filesTotal: number = 0;
-    fileCheckOutput: string[] | undefined = undefined;
+    gameFileErrors: number = 0;
+    gameFilesTotal: number = 0;
+    gameFileCheckOutput: string[] | undefined = undefined;
 
     // processes.txt check
     processesChecked: boolean = false;
     processesChecked2: number = 0;
     processesFailed: number = 0;
+
+    // client.log check
+    clientChecked: boolean = false;
+    clientFailed: number = 0;
 
     // ERRORS
     errors: string[] = [];
@@ -80,7 +85,7 @@ export class AppComponent implements OnInit {
                 this.message = `check.done`;
             } else {
                 this.message = 'check.invalid-file';
-                this.fileCheckOutput = undefined;
+                this.gameFileCheckOutput = undefined;
                 this.errors = [];
             }
         }
@@ -107,15 +112,17 @@ export class AppComponent implements OnInit {
 
             if (this.isTextReadable(text)) {
                 if (file.name.toLowerCase() == 'game.txt') {
-                    await this.checkGameFile(text);
+                    await this.checkGameFile(text)
                 } else if (file.name.toLowerCase() == 'processes.txt') {
                     await this.checkProcessesFile(text)
+                } else if (file.name.toLowerCase() == 'client.log') {
+                    await this.checkClientFile(text)
                 } else {
                     this.message = 'Invalid .txt action';
                 }
             } else {
                 this.message = 'The selected file has no readable text';
-                this.fileCheckOutput = undefined;
+                this.gameFileCheckOutput = undefined;
                 this.errors = [];
             }
             this.checked = true;
@@ -123,7 +130,7 @@ export class AppComponent implements OnInit {
 
         reader.onerror = () => {
             this.message = 'An error occurred while reading the text';
-            this.fileCheckOutput = undefined;
+            this.gameFileCheckOutput = undefined;
             this.errors = [];
         };
 
@@ -144,7 +151,7 @@ export class AppComponent implements OnInit {
                         await this.checkGameFile(text);
                     } else {
                         this.message = 'The selected ZIP file does not contain a readable game.txt file.';
-                        this.fileCheckOutput = undefined;
+                        this.gameFileCheckOutput = undefined;
                         this.errors = [];
                     }
                 } else {
@@ -163,8 +170,25 @@ export class AppComponent implements OnInit {
                         this.message = 'The selected ZIP file does not contain a readable processes.txt file.';
                     }
                 } else {
-                    this.message = 'The ZIP file does not contain a game.txt file.';
-                    this.fileCheckOutput = undefined;
+                    this.message = 'The ZIP file does not contain a processes.txt file.';
+                    this.gameFileCheckOutput = undefined;
+                    this.errors = [];
+                }
+            }
+
+            // client.log
+            {
+                const processes = zipContent.file('client.log');
+                if (processes) {
+                    const text = await processes.async('text');
+                    if (this.isTextReadable(text)) {
+                        await this.checkClientFile(text);
+                    } else {
+                        this.message = 'The selected ZIP file does not contain a readable client.log file.';
+                    }
+                } else {
+                    this.message = 'The ZIP file does not contain a client.log file.';
+                    this.gameFileCheckOutput = undefined;
                     this.errors = [];
                 }
             }
@@ -172,7 +196,7 @@ export class AppComponent implements OnInit {
             this.checked = true;
         } catch (error) {
             this.message = 'An error occurred while reading the ZIP file: ' + (error as Error).message;
-            this.fileCheckOutput = undefined;
+            this.gameFileCheckOutput = undefined;
             this.errors = [];
         }
     }
@@ -184,13 +208,13 @@ export class AppComponent implements OnInit {
         }
 
         if (!text.toLowerCase().includes('file;hash')) {
-            this.fileCheckOutput = undefined;
+            this.gameFileCheckOutput = undefined;
             this.errors.push('NOT_EXTENDED_REPORT')
             return;
         }
 
         let output = '';
-        let fileErrors = 0;
+        let gameFileErrors = 0;
         const fileLines = this.splitIntoLines(text);
         for (let fileLine of fileLines) {
             if (fileLine.toLowerCase() == 'file;hash' || fileLine.length == 0) continue;
@@ -200,14 +224,14 @@ export class AppComponent implements OnInit {
                 if (!this.errors.includes('RESHADE_DETECTED')) {
                     this.errors.push('RESHADE_DETECTED');
                 }
-                fileErrors++;
+                gameFileErrors++;
                 continue;
             }
             if (file.toLowerCase().includes('enb')) {
                 if (!this.errors.includes('ENB_DETECTED')) {
                     this.errors.push('ENB_DETECTED');
                 }
-                fileErrors++;
+                gameFileErrors++;
                 continue;
             }
             const hash = fileLine.split(';')[1]
@@ -220,17 +244,17 @@ export class AppComponent implements OnInit {
                     this.errors.push(tag);
                 }
                 output += `${file} (${tag})\n`
-                fileErrors++;
+                gameFileErrors++;
             }
         }
 
-        this.fileErrors = fileErrors;
-        this.filesTotal = fileLines.length;
+        this.gameFileErrors = gameFileErrors;
+        this.gameFilesTotal = fileLines.length;
         if (output.length == 0) {
-            this.fileCheckOutput = [];
+            this.gameFileCheckOutput = [];
             return;
         }
-        this.fileCheckOutput = this.splitIntoLines(output);
+        this.gameFileCheckOutput = this.splitIntoLines(output);
     }
 
     async checkProcessesFile(text: string): Promise<void> {
@@ -249,6 +273,20 @@ export class AppComponent implements OnInit {
         }
     }
 
+    async checkClientFile(text: string): Promise<void> {
+        this.clientChecked = true;
+        this.clientFailed = 0;
+        const fileLines = this.splitIntoLines(text);
+        for (let fileLine of fileLines) {
+            const error = this.originalClient.find(s => fileLine.toLowerCase().includes(s.name.toLowerCase()));
+            if (error == undefined) continue;
+            this.clientFailed++;
+            if (!this.errors.includes(error.error)) {
+                this.errors.push(error.error);
+            }
+        }
+    }
+
     async loadRequiredFiles(): Promise<void> {
         try {
             // game.txt
@@ -256,7 +294,7 @@ export class AppComponent implements OnInit {
                 const originalGameFiles = await this.http.get('https://raw.githubusercontent.com/shloooo/altv-file-check/data-files/checks/game.txt', {responseType: 'text'}).toPromise();
                 if (originalGameFiles == undefined) {
                     this.message = 'game.txt has no readable text';
-                    this.fileCheckOutput = undefined;
+                    this.gameFileCheckOutput = undefined;
                     this.errors = [];
                     this.uploadDisabled = true;
                     return;
@@ -266,7 +304,7 @@ export class AppComponent implements OnInit {
                     this.originalGameFiles = this.splitIntoLines(originalGameFiles);
                 } else {
                     this.message = 'game.txt has no readable text';
-                    this.fileCheckOutput = undefined;
+                    this.gameFileCheckOutput = undefined;
                     this.errors = [];
                     this.uploadDisabled = true;
                     return;
@@ -278,7 +316,7 @@ export class AppComponent implements OnInit {
                 const originalProcesses = await this.http.get('https://raw.githubusercontent.com/shloooo/altv-file-check/data-files/checks/processes.json', {responseType: 'text'}).toPromise();
                 if (originalProcesses == undefined) {
                     this.message = 'process.json has no readable text';
-                    this.fileCheckOutput = undefined;
+                    this.gameFileCheckOutput = undefined;
                     this.errors = [];
                     this.uploadDisabled = true;
                     return;
@@ -288,7 +326,29 @@ export class AppComponent implements OnInit {
                     this.originalProcesses = JSON.parse(originalProcesses)
                 } catch (e) {
                     this.message = 'Could not load process.json';
-                    this.fileCheckOutput = undefined;
+                    this.gameFileCheckOutput = undefined;
+                    this.errors = [];
+                    this.uploadDisabled = true;
+                    return;
+                }
+            }
+
+            // client.json
+            {
+                const originalClient = await this.http.get('https://raw.githubusercontent.com/shloooo/altv-file-check/data-files/checks/client.json', {responseType: 'text'}).toPromise();
+                if (originalClient == undefined) {
+                    this.message = 'client.json has no readable text';
+                    this.gameFileCheckOutput = undefined;
+                    this.errors = [];
+                    this.uploadDisabled = true;
+                    return;
+                }
+
+                try {
+                    this.originalClient = JSON.parse(originalClient)
+                } catch (e) {
+                    this.message = 'Could not load client.json';
+                    this.gameFileCheckOutput = undefined;
                     this.errors = [];
                     this.uploadDisabled = true;
                     return;
