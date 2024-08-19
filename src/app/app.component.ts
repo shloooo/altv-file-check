@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
     originalGameFiles: string[] | undefined = undefined;
     originalProcesses: {name:string;error:string;}[] = [];
     uploadDisabled: boolean = false;
+    checked: boolean = false;
 
     message = 'check.not-started';
 
@@ -96,7 +97,7 @@ export class AppComponent implements OnInit {
     private async processTextFile(file: File): Promise<void> {
         const reader = new FileReader();
 
-        reader.onload = (e) => {
+        reader.onload = async (e) => {
             const text = e.target?.result as string;
 
             if (this.originalGameFiles == undefined) {
@@ -106,9 +107,9 @@ export class AppComponent implements OnInit {
 
             if (this.isTextReadable(text)) {
                 if (file.name.toLowerCase() == 'game.txt') {
-                    this.checkGameFile(text);
+                    await this.checkGameFile(text);
                 } else if (file.name.toLowerCase() == 'processes.txt') {
-                    this.checkProcessesFile(text)
+                    await this.checkProcessesFile(text)
                 } else {
                     this.message = 'Invalid .txt action';
                 }
@@ -117,6 +118,7 @@ export class AppComponent implements OnInit {
                 this.fileCheckOutput = undefined;
                 this.errors = [];
             }
+            this.checked = true;
         };
 
         reader.onerror = () => {
@@ -166,6 +168,8 @@ export class AppComponent implements OnInit {
                     this.errors = [];
                 }
             }
+
+            this.checked = true;
         } catch (error) {
             this.message = 'An error occurred while reading the ZIP file: ' + (error as Error).message;
             this.fileCheckOutput = undefined;
@@ -249,7 +253,7 @@ export class AppComponent implements OnInit {
         try {
             // game.txt
             {
-                const originalGameFiles = await this.http.get('https://raw.githubusercontent.com/shloooo/altv-file-check/data-files/game.txt', {responseType: 'text'}).toPromise();
+                const originalGameFiles = await this.http.get('https://raw.githubusercontent.com/shloooo/altv-file-check/data-files/checks/game.txt', {responseType: 'text'}).toPromise();
                 if (originalGameFiles == undefined) {
                     this.message = 'game.txt has no readable text';
                     this.fileCheckOutput = undefined;
@@ -271,7 +275,7 @@ export class AppComponent implements OnInit {
 
             // process.json
             {
-                const originalProcesses = await this.http.get('https://raw.githubusercontent.com/shloooo/altv-file-check/data-files/process.json', {responseType: 'text'}).toPromise();
+                const originalProcesses = await this.http.get('https://raw.githubusercontent.com/shloooo/altv-file-check/data-files/checks/processes.json', {responseType: 'text'}).toPromise();
                 if (originalProcesses == undefined) {
                     this.message = 'process.json has no readable text';
                     this.fileCheckOutput = undefined;
