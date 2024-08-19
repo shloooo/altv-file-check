@@ -12,6 +12,11 @@
     "all-valid": "Alle Prozesse sind gültig",
     "not-available": "Ergebnis der Prozessdateiprüfung ist nicht verfügbar"
   },
+  "client-check": {
+    "detailed": "Erledigt! client.log wurde überprüft ({{failed}} Fehler)",
+    "all-valid": "client.log ist gültig",
+    "not-available": "Ergebnis der client.log Prüfung ist nicht verfügbar"
+  },
   "check": {
     "not-started": "Wähle eine Datei aus, um sie überprüfen zu lassen. Entweder eine game.txt oder direkt einen Report.",
     "in-progress": "Verarbeite... (Dies kann ein paar Sekunden dauern)",
