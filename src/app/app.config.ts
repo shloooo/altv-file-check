@@ -28,5 +28,5 @@ export const appConfig: ApplicationConfig = {
 };
 
 export function createTranslateLoader(http: HttpClient) {
-    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+    return new TranslateHttpLoader(http, 'https://raw.githubusercontent.com/shloooo/altv-file-check/data-files/i18n/', '.json');
 }
