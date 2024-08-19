@@ -18,7 +18,7 @@
     "not-available": "Ergebnis der client.log Prüfung ist nicht verfügbar"
   },
   "check": {
-    "not-started": "Wähle eine Datei aus, um sie überprüfen zu lassen. Entweder eine game.txt oder direkt einen Report.",
+    "not-started": "Wähle eine Datei aus, um sie überprüfen zu lassen. Entweder eine game.txt, client.log, processes.txt oder direkt einen Report.",
     "in-progress": "Verarbeite... (Dies kann ein paar Sekunden dauern)",
     "failed": "Prüfung ist fehlgeschlagen",
     "invalid-file": "Die ausgewählte Datei ist nicht gültig.",
