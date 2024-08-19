@@ -1,22 +1,22 @@
 [
-  {
-    "name": "BullGuard",
-    "error": "REMOVE_BULLGUARD"
-  },
-  {
-    "name": "ESET",
-    "error": "REMOVE_ESET"
-  },
-  {
-    "name": "Avira",
-    "error": "REMOVE_OR_DISABLE_AVIRA"
-  },
-  {
-    "name": "Overwolf",
-    "error": "DISABLE_OVERLAYS"
-  },
-  {
-    "name": "OneDrive",
-    "error": "REMOVE_ONEDRIVE"
-  }
+    {
+        "name": "BullGuard",
+        "error": "REMOVE_BULLGUARD"
+    },
+    {
+        "name": "ESET",
+        "error": "REMOVE_ESET"
+    },
+    {
+        "name": "Avira",
+        "error": "REMOVE_OR_DISABLE_AVIRA"
+    },
+    {
+        "name": "Overwolf",
+        "error": "DISABLE_OVERLAYS"
+    },
+    {
+        "name": "OneDrive",
+        "error": "REMOVE_ONEDRIVE"
+    }
 ]
