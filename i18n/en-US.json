@@ -56,6 +56,12 @@
         "Remove ESET from your system"
       ]
     },
+    "REMOVE_SOPHOS": {
+      "message": "Sophos blocks alt:V from running on your system",
+      "possible-solutions": [
+        "Remove Sophos from your system"
+      ]
+    },
     "DISABLE_OVERLAYS": {
       "message": "Overlays like Overwolf cause alt:V to crash after few seconds/minutes after launch",
       "possible-solutions": [

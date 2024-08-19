@@ -45,15 +45,21 @@
       ]
     },
     "REMOVE_BULLGUARD": {
-      "message": "BullGuard blockt alt:V",
+      "message": "BullGuard blockiert alt:V",
       "possible-solutions": [
         "Deinstalliere BullGuard"
       ]
     },
     "REMOVE_ESET": {
-      "message": "ESET blockt alt:V",
+      "message": "ESET blockiert alt:V",
       "possible-solutions": [
         "Deinstalliere ESET"
+      ]
+    },
+    "REMOVE_SOPHOS": {
+      "message": "Sophos blockiert alt:V",
+      "possible-solutions": [
+        "Deinstalliere Sophos"
       ]
     },
     "DISABLE_OVERLAYS": {

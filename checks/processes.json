@@ -18,5 +18,9 @@
     {
         "name": "OneDrive",
         "error": "REMOVE_ONEDRIVE"
+    },
+    {
+        "name": "Sophos",
+        "error": "REMOVE_SOPHOS"
     }
 ]
