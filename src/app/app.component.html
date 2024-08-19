@@ -206,8 +206,8 @@
                 </app-collapsible-span>
                 <br>
             </div>
-            <hr *ngIf="fileCheckOutput != undefined">
-            <div *ngIf="fileCheckOutput != undefined">
+            <hr *ngIf="checked">
+            <div *ngIf="checked && fileCheckOutput != undefined">
                 <span *ngIf="fileCheckOutput.length == 0">✅ {{ 'game-file-check.all-valid' | translate }}</span>
                 <span *ngIf="fileCheckOutput.length > 0">❌ {{ 'game-file-check.detailed' | translate:{files:filesTotal, failed:fileErrors } }}</span>
                 <br *ngIf="fileCheckOutput.length > 0">
@@ -218,10 +218,16 @@
                     }
                 </app-collapsible-span>
             </div>
-            <hr *ngIf="processesChecked">
-            <div *ngIf="processesChecked">
+            <div *ngIf="checked && fileCheckOutput == undefined">
+                <span>❌ {{ 'game-file-check.not-available' | translate }}</span>
+            </div>
+            <hr *ngIf="checked">
+            <div *ngIf="checked && processesChecked">
                 <span *ngIf="processesFailed == 0">✅ {{ 'processes-check.all-valid' | translate }}</span>
                 <span *ngIf="processesFailed > 0">❌ {{ 'processes-check.detailed' | translate:{processes:processesChecked2, failed:processesFailed } }}</span>
+            </div>
+            <div *ngIf="checked && !processesChecked">
+                <span>❌ {{ 'processes-check.not-available' | translate }}</span>
             </div>
             <p>
                 This "tool" does not belong to alt:V or is a part of it. In case of errors, feel free to open an <a
