@@ -4,11 +4,13 @@
   "game-file-check": {
     "title": "Fehlerhafte Datein",
     "detailed": "Erledigt! Überprüfte {{files}} Dateien ({{failed}} fehlgeschlagen)",
-    "all-valid": "Alle Datein sind gültig"
+    "all-valid": "Alle Datein sind gültig",
+    "not-available": "Ergebnis der Spieldateiprüfung ist nicht verfügbar"
   },
   "processes-check": {
     "detailed": "Erledigt! Überprüfte {{processes}} Prozesse ({{failed}} fehlgeschlagen)",
-    "all-valid": "Alle Prozesse sind gültig"
+    "all-valid": "Alle Prozesse sind gültig",
+    "not-available": "Ergebnis der Prozessdateiprüfung ist nicht verfügbar"
   },
   "check": {
     "not-started": "Wähle eine Datei aus, um sie überprüfen zu lassen. Entweder eine game.txt oder direkt einen Report.",

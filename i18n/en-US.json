@@ -4,11 +4,13 @@
   "game-file-check": {
     "title": "Incorrect files",
     "detailed": "Done! Checked {{files}} files ({{failed}} failed)",
-    "all-valid": "All files are valid"
+    "all-valid": "All files are valid",
+    "not-available": "Game file check result is not available"
   },
   "processes-check": {
     "detailed": "Done! Checked {{processes}} processes ({{failed}} failed)",
-    "all-valid": "All processes are valid"
+    "all-valid": "All processes are valid",
+    "not-available": "Processes file check result is not available"
   },
   "check": {
     "not-started": "Select a file to have it checked. Either a game.txt or a report directly.",
