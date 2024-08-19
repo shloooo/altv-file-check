@@ -74,6 +74,7 @@ export class AppComponent implements OnInit {
         this.message = 'check.in-progress';
         this.errors = [];
         this.processesChecked = false;
+        this.clientChecked = false;
         if (input.files && input.files.length > 0) {
             const file = input.files[0];
 
@@ -151,11 +152,13 @@ export class AppComponent implements OnInit {
                         await this.checkGameFile(text);
                     } else {
                         this.message = 'The selected ZIP file does not contain a readable game.txt file.';
+                        alert('The selected ZIP file does not contain a readable game.txt file.')
                         this.gameFileCheckOutput = undefined;
                         this.errors = [];
                     }
                 } else {
                     this.message = 'The ZIP file does not contain a game.txt file.';
+                    alert('The ZIP file does not contain a game.txt file.')
                 }
             }
 
@@ -168,9 +171,11 @@ export class AppComponent implements OnInit {
                         await this.checkProcessesFile(text);
                     } else {
                         this.message = 'The selected ZIP file does not contain a readable processes.txt file.';
+                        alert('The selected ZIP file does not contain a readable processes.txt file.')
                     }
                 } else {
                     this.message = 'The ZIP file does not contain a processes.txt file.';
+                    alert('The ZIP file does not contain a processes.txt file.')
                     this.gameFileCheckOutput = undefined;
                     this.errors = [];
                 }
@@ -185,9 +190,11 @@ export class AppComponent implements OnInit {
                         await this.checkClientFile(text);
                     } else {
                         this.message = 'The selected ZIP file does not contain a readable client.log file.';
+                        alert('The selected ZIP file does not contain a readable client.log file.')
                     }
                 } else {
                     this.message = 'The ZIP file does not contain a client.log file.';
+                    alert('The ZIP file does not contain a client.log file.')
                     this.gameFileCheckOutput = undefined;
                     this.errors = [];
                 }
