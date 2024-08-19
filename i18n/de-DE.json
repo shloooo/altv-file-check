@@ -1,0 +1,90 @@
+{
+  "show-errors": "Fehler anzeigen",
+  "possible-solutions": "Mögliche Lösungen:",
+  "game-file-check": {
+    "title": "Fehlerhafte Datein",
+    "detailed": "Erledigt! Überprüfte {{files}} Dateien ({{failed}} fehlgeschlagen)",
+    "all-valid": "Alle Datein sind gültig"
+  },
+  "processes-check": {
+    "detailed": "Erledigt! Überprüfte {{processes}} Prozesse ({{failed}} fehlgeschlagen)",
+    "all-valid": "Alle Prozesse sind gültig"
+  },
+  "check": {
+    "not-started": "Wähle eine Datei aus, um sie überprüfen zu lassen. Entweder eine game.txt oder direkt einen Report.",
+    "in-progress": "Verarbeite... (Dies kann ein paar Sekunden dauern)",
+    "failed": "Prüfung ist fehlgeschlagen",
+    "invalid-file": "Die ausgewählte Datei ist nicht gültig.",
+    "done": "Prüfung abgeschlossen"
+  },
+  "errors": {
+    "NOT_EXTENDED_REPORT": {
+      "message": "Der Spieldatei Check konnte nicht durchgeführt werden, da der Report oder die gewählte Datei nicht von einem erweitertem Report stammt.",
+      "possible-solutions": [
+        "Erstelle einen <a href=\"altv://action/report?extended=true\">erweiterten Report</a> (Dies könnte eine Weile dauern)"
+      ]
+    },
+    "FILE_HASH_DOES_NOT_MATCH": {
+      "message": "FILE_HASH_DOES_NOT_MATCH bedeutet das möglicherweise einige Datein nicht mit der originalen Datein übereinstimmen.",
+      "possible-solutions": [
+        "Überprüfen der Spielintegrität"
+      ]
+    },
+    "FILE_UNKNOWN": {
+      "message": "FILE_UNKNOWN bedeutet das die Datei nicht zum Spiel dazugehört. (Steam oder Epic Games Datein können ignoriert werden)",
+      "possible-solutions": [
+        "Datei entfernen",
+        "Überprüfen der Spielintegrität"
+      ]
+    },
+    "REMOVE_BULLGUARD": {
+      "message": "BullGuard blockt alt:V",
+      "possible-solutions": [
+        "Deinstalliere BullGuard"
+      ]
+    },
+    "REMOVE_ESET": {
+      "message": "ESET blockt alt:V",
+      "possible-solutions": [
+        "Deinstalliere ESET"
+      ]
+    },
+    "DISABLE_OVERLAYS": {
+      "message": "Overlays wie Overwolf lässt alt:V nach einigen Sekunden oder Minuten crashen",
+      "possible-solutions": [
+        "Deaktiviere Overlays wie Overwolf, Discord Overlay, Nvidia Overlay etc."
+      ]
+    },
+    "REMOVE_ONEDRIVE": {
+      "message": "OneDrive löst Probleme beim Rockstar Games Launcher aus",
+      "possible-solutions": [
+        "Deinstalliere OneDrive"
+      ]
+    },
+    "REMOVE_OR_DISABLE_AVIRA": {
+      "message": "Avira blockiert möglicherweise die Ausführung von alt:V auf deinem System",
+      "possible-solutions": [
+        "Deinstalliere Avira",
+        "Füge alt:V als Ausnahme bei Avira hinzu"
+      ]
+    },
+    "RESHADE_DETECTED": {
+      "message": "Reshade wurde im Spielordner erkannt",
+      "possible-solutions": [
+        "Entferne Reshade aus dem Spielordner und pack ihn stattdessen in den alt:V Mods Ordner"
+      ]
+    },
+    "ENB_DETECTED": {
+      "message": "ENB wurde im Spielordner erkannt",
+      "possible-solutions": [
+        "Entferne ENB aus dem Spielordner und pack ihn stattdessen in den alt:V Mods Ordner"
+      ]
+    },
+    "EXAMPLE": {
+      "message": "Example",
+      "possible-solutions": [
+        "Example"
+      ]
+    }
+  }
+}
