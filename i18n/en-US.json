@@ -1,6 +1,7 @@
 {
   "show-errors": "Show errors",
   "possible-solutions": "Possible solutions:",
+  "more-details": "More details",
   "game-file-check": {
     "title": "Incorrect files",
     "detailed": "Done! Checked {{files}} files ({{failed}} failed)",
