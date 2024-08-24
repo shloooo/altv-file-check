@@ -224,6 +224,7 @@
             <div *ngIf="checked && processesChecked">
                 <span *ngIf="processesFailed == 0">✅ {{ 'processes-check.all-valid' | translate }}</span>
                 <span *ngIf="processesFailed > 0">❌ {{ 'processes-check.detailed' | translate:{processes:processesChecked2, failed:processesFailed } }}</span>
+                <br *ngIf="processesDetails.length > 0">
                 <app-collapsible-span [title]="'more-details' | translate" *ngIf="processesDetails.length > 0">
                     @for (item of processesDetails; track item) {
                         <div>{{ item }}</div>
@@ -237,6 +238,7 @@
             <div *ngIf="checked && clientChecked">
                 <span *ngIf="clientFailed == 0">✅ {{ 'client-check.all-valid' | translate }}</span>
                 <span *ngIf="clientFailed > 0">❌ {{ 'client-check.detailed' | translate:{failed:clientFailed} }}</span>
+                <br *ngIf="clientDetails.length > 0">
                 <app-collapsible-span [title]="'more-details' | translate" *ngIf="clientDetails.length > 0">
                     @for (item of clientDetails; track item) {
                         <div>{{ item }}</div>
