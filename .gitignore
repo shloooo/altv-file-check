@@ -15,6 +15,7 @@ yarn-error.log
 .firebase/
 .firebaserc
 *-lock.json
+yarn.lock
 
 # IDEs and editors
 .idea/
