@@ -3,7 +3,6 @@
   "possible-solutions": "Mögliche Lösungen:",
   "more-details": "Mehr Details",
   "game-file-check": {
-    "title": "Fehlerhafte Datein",
     "detailed": "Erledigt! Überprüfte {{files}} Dateien ({{failed}} fehlgeschlagen)",
     "all-valid": "Alle Datein sind gültig",
     "not-available": "Ergebnis der Spieldateiprüfung ist nicht verfügbar"
