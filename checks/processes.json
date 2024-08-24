@@ -22,5 +22,9 @@
     {
         "name": "Sophos",
         "error": "REMOVE_SOPHOS"
+    },
+    {
+        "name": "Avast",
+        "error": "REMOVE_AVAST"
     }
 ]

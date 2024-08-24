@@ -62,6 +62,12 @@
         "Deinstalliere Sophos"
       ]
     },
+    "REMOVE_AVAST": {
+      "message": "Avast blockiert alt:V",
+      "possible-solutions": [
+        "Deinstalliere Avast"
+      ]
+    },
     "DISABLE_OVERLAYS": {
       "message": "Overlays wie Overwolf lässt alt:V nach einigen Sekunden oder Minuten crashen",
       "possible-solutions": [

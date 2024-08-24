@@ -62,6 +62,12 @@
         "Remove Sophos from your system"
       ]
     },
+    "REMOVE_AVAST": {
+      "message": "Avast blocks alt:V from running on your system",
+      "possible-solutions": [
+        "Remove Avast from your system"
+      ]
+    },
     "DISABLE_OVERLAYS": {
       "message": "Overlays like Overwolf cause alt:V to crash after few seconds/minutes after launch",
       "possible-solutions": [
