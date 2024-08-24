@@ -211,7 +211,7 @@
                 <span *ngIf="gameFileCheckOutput.length > 0">❌ {{ 'game-file-check.detailed' | translate:{files:gameFilesTotal, failed:gameFileErrors } }}</span>
                 <br *ngIf="gameFileCheckOutput.length > 0">
                 <br *ngIf="gameFileCheckOutput.length > 0">
-                <app-collapsible-span [title]="'game-file-check.title' | translate" *ngIf="gameFileCheckOutput.length > 0">
+                <app-collapsible-span [title]="'more-details' | translate" *ngIf="gameFileCheckOutput.length > 0">
                     @for (item of gameFileCheckOutput; track item) {
                         <div>{{ item }}</div>
                     }
