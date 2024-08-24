@@ -33,10 +33,12 @@ export class AppComponent implements OnInit {
     processesChecked: boolean = false;
     processesChecked2: number = 0;
     processesFailed: number = 0;
+    processesDetails: string[] = [];
 
     // client.log check
     clientChecked: boolean = false;
     clientFailed: number = 0;
+    clientDetails: string[] = [];
 
     // ERRORS
     errors: string[] = [];
@@ -268,6 +270,7 @@ export class AppComponent implements OnInit {
         this.processesChecked = true;
         this.processesChecked2 = 0;
         this.processesFailed = 0;
+        this.processesDetails = [];
         const fileLines = this.splitIntoLines(text);
         for (let fileLine of fileLines) {
             const error = this.originalProcesses.find(s => fileLine.toLowerCase().includes(s.name.toLowerCase()));
@@ -277,12 +280,14 @@ export class AppComponent implements OnInit {
             if (!this.errors.includes(error.error)) {
                 this.errors.push(error.error);
             }
+            this.processesDetails.push(fileLine)
         }
     }
 
     async checkClientFile(text: string): Promise<void> {
         this.clientChecked = true;
         this.clientFailed = 0;
+        this.clientDetails = [];
         const fileLines = this.splitIntoLines(text);
         for (let fileLine of fileLines) {
             const error = this.originalClient.find(s => fileLine.toLowerCase().includes(s.name.toLowerCase()));
@@ -291,6 +296,7 @@ export class AppComponent implements OnInit {
             if (!this.errors.includes(error.error)) {
                 this.errors.push(error.error);
             }
+            this.clientDetails.push(fileLine)
         }
     }
 
