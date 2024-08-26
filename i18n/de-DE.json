@@ -87,6 +87,13 @@
         "Füge alt:V als Ausnahme bei Avira hinzu"
       ]
     },
+    "REMOVE_OR_DISABLE_BITDEFENDER": {
+      "message": "Bitdefender blockiert möglicherweise die Ausführung von alt:V auf deinem System",
+      "possible-solutions": [
+        "Deinstalliere Bitdefender",
+        "Füge alt:V als Ausnahme bei Bitdefender hinzu"
+      ]
+    },
     "RESHADE_DETECTED": {
       "message": "Reshade wurde im Spielordner erkannt",
       "possible-solutions": [

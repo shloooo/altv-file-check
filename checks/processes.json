@@ -26,5 +26,9 @@
     {
         "name": "Avast",
         "error": "REMOVE_AVAST"
+    },
+    {
+        "name": "Bitdefender",
+        "error": "REMOVE_OR_DISABLE_BITDEFENDER"
     }
 ]
