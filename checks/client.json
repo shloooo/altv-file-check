@@ -2,5 +2,9 @@
     {
         "name": "BgAgent.dll",
         "error": "REMOVE_BULLGUARD"
+    },
+    {
+        "name": "Pool is full",
+        "error": "POOL_IS_FULL"
     }
 ]

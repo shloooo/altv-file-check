@@ -106,6 +106,24 @@
         "Remove ENB from the game folder and put it in the alt:V Mods folder instead"
       ]
     },
+    "POOL_IS_FULL": {
+      "message": "A internal pool is full which can cause crashs",
+      "possible-solutions": [
+        "Contact the server support"
+      ]
+    },
+    "CLOSE_OPERA_GX": {
+      "message": "Opera GX may cause alt:V not to start",
+      "possible-solutions": [
+        "Try to close Opera GX"
+      ]
+    },
+    "CLOSE_CORSAIR_ICUE": {
+      "message": "Corsair iCUE may cause alt:V not to start",
+      "possible-solutions": [
+        "Try to close Corsair iCUE"
+      ]
+    },
     "EXAMPLE": {
       "message": "Example",
       "possible-solutions": [

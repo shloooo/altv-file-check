@@ -30,5 +30,13 @@
     {
         "name": "Bitdefender",
         "error": "REMOVE_OR_DISABLE_BITDEFENDER"
+    },
+    {
+        "name": "Opera GX",
+        "error": "CLOSE_OPERA_GX"
+    },
+    {
+        "name": "iCUE",
+        "error": "CLOSE_CORSAIR_ICUE"
     }
 ]

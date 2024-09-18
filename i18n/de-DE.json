@@ -106,6 +106,24 @@
         "Entferne ENB aus dem Spielordner und pack ihn stattdessen in den alt:V Mods Ordner"
       ]
     },
+    "POOL_IS_FULL": {
+      "message": "Ein interner Pool ist voll, was zu Abstürzen führen kann",
+      "possible-solutions": [
+        "Wende dich an den Server-Support"
+      ]
+    },
+    "CLOSE_OPERA_GX": {
+      "message": "Opera GX kann dazu führen, dass alt:V nicht startet",
+      "possible-solutions": [
+        "Versuche Opera GX zu schließen"
+      ]
+    },
+    "CLOSE_CORSAIR_ICUE": {
+      "message": "Corsair iCUE kann dazu führen, dass alt:V nicht startet",
+      "possible-solutions": [
+        "Versuche Corsair iCUE zu schließen"
+      ]
+    },
     "EXAMPLE": {
       "message": "Example",
       "possible-solutions": [
