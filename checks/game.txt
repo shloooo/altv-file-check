@@ -60,11 +60,12 @@ GFSDK_ShadowLib.win64.dll;695c136c557d065c
 GFSDK_TXAA.win64.dll;e965209eeea69520
 GFSDK_TXAA_AlphaResolve.win64.dll;bab40e6c299d820e
 GPUPerfAPIDX11-x64.dll;bb086a37bb98bcf5
-GTA5.exe;86399191f25270c7
-GTA5_BE.exe;55a1339a9911b037
+GTA5.exe;60694b13a70d4081
+GTA5_BE.exe;5796402d4472d0cb
 GTAVLanguageSelect.exe;bcc67221d69c534b
 GTAVLauncher.exe;f534b059958b03dc
-installscript.vdf;dec45a6f343fab25
+index.bin;bf5cbb46f9f34530
+installscript.vdf;fb5be4618a2a59df
 installscript_sdk.vdf;facbaeb9131d43d9
 libcurl.dll;1fb4fb879e131747
 libtox.dll;e3c8e4851dee4d97
@@ -77,7 +78,7 @@ Redistributables\Social-Club-Setup.exe;717ebe57b8d3edb6
 steam_api64.dll;6c2ba02f69612492
 title.rgl;c732c5ccce8c8198
 update\update.rpf;f4a5e29101cdb1d5
-update\update2.rpf;4a49ec101827f338
+update\update2.rpf;f30fab68d1dac962
 update\x64\data\errorcodes\american.txt;1524f6340762f04f
 update\x64\data\errorcodes\chinese.txt;b173a8e39471b8e
 update\x64\data\errorcodes\chinesesimp.txt;d679bceb9fd40265
