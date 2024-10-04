@@ -1,109 +1,49 @@
-import {Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
-import {NgForOf, NgIf} from "@angular/common";
-import {HttpClient} from "@angular/common/http";
 import JSZip from "jszip";
-import {CollapsibleSpanComponent} from "./collapsible-span/collapsible-span.component";
-import {TranslateModule, TranslateService} from "@ngx-translate/core";
-import {SafePipe} from "../@core/pipes/safe.pipe";
+import {HttpClient} from "@angular/common/http";
 
-@Component({
-    selector: 'app-root',
-    standalone: true,
-    imports: [RouterOutlet, NgIf, CollapsibleSpanComponent, TranslateModule, NgForOf, SafePipe],
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.scss'
-})
-export class AppComponent implements OnInit {
+export class FileCheckApi {
 
-    originalGameFiles: string[] | undefined = undefined;
-    originalProcesses: { name: string; error: string; }[] = [];
-    originalClient: { name: string; error: string; }[] = [];
-    uploadDisabled: boolean = false;
-    checked: boolean = false;
+    static originalGameFiles: string[] | undefined = undefined;
+    private static originalProcesses: { name: string; error: string; }[] = [];
+    private static originalClient: { name: string; error: string; }[] = [];
+    private static uploadDisabled: boolean = false;
+    private static checked: boolean = false;
 
-    message = 'check.not-started';
+    private static message = 'check.not-started';
 
     // game.txt check
-    gameFileErrors: number = 0;
-    gameFilesTotal: number = 0;
-    gameFileCheckOutput: string[] | undefined = undefined;
+    private static gameFileErrors: number = 0;
+    private static gameFilesTotal: number = 0;
+    private static gameFileCheckOutput: string[] | undefined = undefined;
 
     // processes.txt check
-    processesChecked: boolean = false;
-    processesChecked2: number = 0;
-    processesFailed: number = 0;
-    processesDetails: string[] = [];
+    private static processesChecked: boolean = false;
+    private static processesChecked2: number = 0;
+    private static processesFailed: number = 0;
+    private static processesDetails: string[] = [];
 
     // client.log check
-    clientChecked: boolean = false;
-    clientFailed: number = 0;
-    clientDetails: string[] = [];
+    private static clientChecked: boolean = false;
+    private static clientFailed: number = 0;
+    private static clientDetails: string[] = [];
 
     // ERRORS
-    errors: string[] = [];
-
+    private static errors: string[] = [];
     // ERRORS
 
-    constructor(private http: HttpClient,
-                private translate: TranslateService,
-                @Inject(LOCALE_ID) public locale: string) {
-        // Initialize the default language
-        translate.setDefaultLang('en-US');
-        translate.use(locale);
-
-        // Debug language
-        console.log(`Default lang: ${translate.defaultLang}`)
-        console.log(`System lang: ${locale}`)
+    static async init(http: HttpClient) {
+        await this.loadRequiredFiles(http);
     }
 
-    async ngOnInit() {
-        await this.loadRequiredFiles();
-    }
-
-    async onFileSelected(event: Event): Promise<void> {
-        if (this.uploadDisabled) {
-            alert('Upload is disabled')
-            return;
-        }
-
-        if (this.originalGameFiles == undefined) {
-            alert('Could not access original game files')
-            return;
-        }
-
-        const input = event.target as HTMLInputElement;
-
-        this.message = 'check.in-progress';
-        this.errors = [];
-        this.processesChecked = false;
-        this.clientChecked = false;
-        if (input.files && input.files.length > 0) {
-            const file = input.files[0];
-
-            if (file.type === 'text/plain') {
-                await this.processTextFile(file);
-                this.message = `check.done`;
-            } else if (file.name.endsWith('.zip')) {
-                await this.processZipFile(file);
-                this.message = `check.done`;
-            } else {
-                this.message = 'check.invalid-file';
-                this.gameFileCheckOutput = undefined;
-                this.errors = [];
-            }
-        }
-    }
-
-    private isTextReadable(text: string): boolean {
+    private static isTextReadable(text: string): boolean {
         return /^[\x00-\x7F]*$/.test(text);
     }
 
-    private splitIntoLines(text: string): string[] {
+    private static splitIntoLines(text: string): string[] {
         return text.split(/\r?\n/);
     }
 
-    private async processTextFile(file: File): Promise<void> {
+    private static async processTextFile(file: File): Promise<void> {
         const reader = new FileReader();
 
         reader.onload = async (e) => {
@@ -141,7 +81,7 @@ export class AppComponent implements OnInit {
         reader.readAsText(file);
     }
 
-    private async processZipFile(file: File): Promise<void> {
+    private static async processZipFile(file: File): Promise<void> {
         try {
             const zip = new JSZip();
             const zipContent = await zip.loadAsync(file);
@@ -211,7 +151,7 @@ export class AppComponent implements OnInit {
         }
     }
 
-    async checkGameFile(text: string): Promise<void> {
+    static async checkGameFile(text: string): Promise<void> {
         if (this.originalGameFiles == undefined) {
             alert('Could not access original game files')
             return;
@@ -267,7 +207,7 @@ export class AppComponent implements OnInit {
         this.gameFileCheckOutput = this.splitIntoLines(output);
     }
 
-    async checkProcessesFile(text: string): Promise<void> {
+    static async checkProcessesFile(text: string): Promise<void> {
         this.processesChecked = true;
         this.processesChecked2 = 0;
         this.processesFailed = 0;
@@ -285,7 +225,7 @@ export class AppComponent implements OnInit {
         }
     }
 
-    async checkClientFile(text: string): Promise<void> {
+    static async checkClientFile(text: string): Promise<void> {
         this.clientChecked = true;
         this.clientFailed = 0;
         this.clientDetails = [];
@@ -301,11 +241,11 @@ export class AppComponent implements OnInit {
         }
     }
 
-    async loadRequiredFiles(): Promise<void> {
+    static async loadRequiredFiles(http: HttpClient): Promise<void> {
         try {
             // game.txt
             {
-                const originalGameFiles = await this.http.get('https://raw.githubusercontent.com/shloooo/altv-file-check/data-files/checks/game.txt', {responseType: 'text'}).toPromise();
+                const originalGameFiles = await http.get('https://raw.githubusercontent.com/shloooo/altv-file-check/data-files/checks/game.txt', {responseType: 'text'}).toPromise();
                 if (originalGameFiles == undefined) {
                     this.message = 'game.txt has no readable text';
                     this.gameFileCheckOutput = undefined;
@@ -327,7 +267,7 @@ export class AppComponent implements OnInit {
 
             // process.json
             {
-                const originalProcesses = await this.http.get('https://raw.githubusercontent.com/shloooo/altv-file-check/data-files/checks/processes.json', {responseType: 'text'}).toPromise();
+                const originalProcesses = await http.get('https://raw.githubusercontent.com/shloooo/altv-file-check/data-files/checks/processes.json', {responseType: 'text'}).toPromise();
                 if (originalProcesses == undefined) {
                     this.message = 'process.json has no readable text';
                     this.gameFileCheckOutput = undefined;
@@ -349,7 +289,7 @@ export class AppComponent implements OnInit {
 
             // client.json
             {
-                const originalClient = await this.http.get('https://raw.githubusercontent.com/shloooo/altv-file-check/data-files/checks/client.json', {responseType: 'text'}).toPromise();
+                const originalClient = await http.get('https://raw.githubusercontent.com/shloooo/altv-file-check/data-files/checks/client.json', {responseType: 'text'}).toPromise();
                 if (originalClient == undefined) {
                     this.message = 'client.json has no readable text';
                     this.gameFileCheckOutput = undefined;
@@ -372,17 +312,5 @@ export class AppComponent implements OnInit {
             this.message = 'Could not load required files: ' + (error as Error).message;
             this.uploadDisabled = true;
         }
-    }
-
-    getTranslatedArray(key: string): string[] {
-        let translatedArray: string[] = [];
-
-        this.translate.get(key).subscribe((res: any) => {
-            if (res && Array.isArray(res)) {
-                translatedArray = res;
-            }
-        });
-
-        return translatedArray;
     }
 }

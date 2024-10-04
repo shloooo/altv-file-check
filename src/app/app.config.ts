@@ -2,14 +2,16 @@ import {ApplicationConfig, importProvidersFrom, provideZoneChangeDetection} from
 import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
-import {HttpClient, provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {CustomMissingTranslationHandler} from "../@core/translate/custom-missing-translation.handler";
+import {FileInterceptor} from "./api/http-interceptor";
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        {provide: HTTP_INTERCEPTORS, useClass: FileInterceptor, multi: true},
         provideZoneChangeDetection({eventCoalescing: true}),
         provideRouter(routes),
         provideHttpClient(withInterceptorsFromDi()),
@@ -21,7 +23,10 @@ export const appConfig: ApplicationConfig = {
                     useFactory: (createTranslateLoader),
                     deps: [HttpClient]
                 },
-                missingTranslationHandler: {provide: MissingTranslationHandler, useClass: CustomMissingTranslationHandler}
+                missingTranslationHandler: {
+                    provide: MissingTranslationHandler,
+                    useClass: CustomMissingTranslationHandler
+                }
             })
         )
     ]
