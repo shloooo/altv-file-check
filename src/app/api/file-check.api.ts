@@ -45,6 +45,7 @@ export class FileCheckApi {
     }
     
     async processFile(file: File) {
+        this.warnings = [];
         this.errors = [];
         this.processesChecked = false;
         this.clientChecked = false;
@@ -58,6 +59,7 @@ export class FileCheckApi {
         } else {
             this.message = 'check.invalid-file';
             this.gameFileCheckOutput = undefined;
+            this.warnings = [];
             this.errors = [];
         }
         
@@ -88,6 +90,7 @@ export class FileCheckApi {
             } else {
                 this.message = 'The selected file has no readable text';
                 this.gameFileCheckOutput = undefined;
+                this.warnings = [];
                 this.errors = [];
             }
             this.checked = true;
@@ -96,6 +99,7 @@ export class FileCheckApi {
         reader.onerror = () => {
             this.message = 'An error occurred while reading the text';
             this.gameFileCheckOutput = undefined;
+            this.warnings = [];
             this.errors = [];
         };
 
@@ -118,6 +122,7 @@ export class FileCheckApi {
                         this.message = 'The selected ZIP file does not contain a readable game.txt file.';
                         alert('The selected ZIP file does not contain a readable game.txt file.')
                         this.gameFileCheckOutput = undefined;
+                        this.warnings = [];
                         this.errors = [];
                     }
                 } else {
@@ -141,6 +146,7 @@ export class FileCheckApi {
                     this.message = 'The ZIP file does not contain a processes.txt file.';
                     alert('The ZIP file does not contain a processes.txt file.')
                     this.gameFileCheckOutput = undefined;
+                    this.warnings = [];
                     this.errors = [];
                 }
             }
@@ -160,6 +166,7 @@ export class FileCheckApi {
                     this.message = 'The ZIP file does not contain a client.log file.';
                     alert('The ZIP file does not contain a client.log file.')
                     this.gameFileCheckOutput = undefined;
+                    this.warnings = [];
                     this.errors = [];
                 }
             }
@@ -168,6 +175,7 @@ export class FileCheckApi {
         } catch (error) {
             this.message = 'An error occurred while reading the ZIP file: ' + (error as Error).message;
             this.gameFileCheckOutput = undefined;
+            this.warnings = [];
             this.errors = [];
         }
     }
@@ -273,6 +281,7 @@ export class FileCheckApi {
                 if (originalGameFiles == undefined) {
                     this.message = 'game.txt has no readable text';
                     this.gameFileCheckOutput = undefined;
+                    this.warnings = [];
                     this.errors = [];
                     this.uploadDisabled = true;
                     return;
@@ -283,6 +292,7 @@ export class FileCheckApi {
                 } else {
                     this.message = 'game.txt has no readable text';
                     this.gameFileCheckOutput = undefined;
+                    this.warnings = [];
                     this.errors = [];
                     this.uploadDisabled = true;
                     return;
@@ -295,6 +305,7 @@ export class FileCheckApi {
                 if (originalProcesses == undefined) {
                     this.message = 'process.json has no readable text';
                     this.gameFileCheckOutput = undefined;
+                    this.warnings = [];
                     this.errors = [];
                     this.uploadDisabled = true;
                     return;
@@ -305,6 +316,7 @@ export class FileCheckApi {
                 } catch (e) {
                     this.message = 'Could not load process.json';
                     this.gameFileCheckOutput = undefined;
+                    this.warnings = [];
                     this.errors = [];
                     this.uploadDisabled = true;
                     return;
@@ -317,6 +329,7 @@ export class FileCheckApi {
                 if (originalClient == undefined) {
                     this.message = 'client.json has no readable text';
                     this.gameFileCheckOutput = undefined;
+                    this.warnings = [];
                     this.errors = [];
                     this.uploadDisabled = true;
                     return;
@@ -327,6 +340,7 @@ export class FileCheckApi {
                 } catch (e) {
                     this.message = 'Could not load client.json';
                     this.gameFileCheckOutput = undefined;
+                    this.warnings = [];
                     this.errors = [];
                     this.uploadDisabled = true;
                     return;
