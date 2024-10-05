@@ -197,8 +197,8 @@
                 <br>
             </div>
             <div class="errors" *ngIf="errors.length != 0">
-                <br>
-                <app-collapsible-span [title]="'show-errors' | translate" [isExpanded]="true">
+                <br *ngIf="warnings.length == 0">
+                <app-collapsible-span [title]="'show-errors' | translate" [isExpanded]="false">
                     @for (error of errors; track error) {
                         <hr>
                         <span>
