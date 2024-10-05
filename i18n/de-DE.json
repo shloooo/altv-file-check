@@ -4,18 +4,18 @@
   "possible-solutions": "Mögliche Lösungen:",
   "more-details": "Mehr Details",
   "game-file-check": {
-    "detailed": "Erledigt! Überprüfte {{files}} Dateien ({{failed}} fehlgeschlagen)",
+    "detailed": "Erledigt! Überprüfte {{files}} Dateien ({{failed}} Probleme)",
     "all-valid": "Alle Datein sind gültig",
     "not-available": "Ergebnis der Spieldateiprüfung ist nicht verfügbar"
   },
   "processes-check": {
-    "detailed": "Erledigt! Überprüfte {{processes}} Prozesse ({{failed}} fehlgeschlagen)",
-    "all-valid": "Alle Prozesse sind gültig",
+    "detailed": "Erledigt! Überprüfte {{processes}} Prozesse ({{failed}} Probleme)",
+    "all-valid": "Keine problematischen Prozesse gefunden",
     "not-available": "Ergebnis der Prozessdateiprüfung ist nicht verfügbar"
   },
   "client-check": {
-    "detailed": "Erledigt! client.log wurde überprüft ({{failed}} fehlgeschlagen)",
-    "all-valid": "client.log ist gültig",
+    "detailed": "Erledigt! client.log wurde überprüft ({{failed}} Probleme)",
+    "all-valid": "Keine Probleme in der Datei client.log gefunden",
     "not-available": "Ergebnis der client.log Prüfung ist nicht verfügbar"
   },
   "check": {
