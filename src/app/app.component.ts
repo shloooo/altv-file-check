@@ -17,8 +17,8 @@ import {SafePipe} from "../@core/pipes/safe.pipe";
 export class AppComponent implements OnInit {
 
     originalGameFiles: string[] | undefined = undefined;
-    originalProcesses: { name: string; error: string; }[] = [];
-    originalClient: { name: string; error: string; }[] = [];
+    originalProcesses: { name: string; warning: string; error: string; }[] = [];
+    originalClient: { name: string; warning: string; error: string; }[] = [];
     uploadDisabled: boolean = false;
     checked: boolean = false;
 
@@ -41,8 +41,8 @@ export class AppComponent implements OnInit {
     clientDetails: string[] = [];
 
     // ERRORS
+    warnings: string[] = [];
     errors: string[] = [];
-
     // ERRORS
 
     constructor(private http: HttpClient,
@@ -217,42 +217,41 @@ export class AppComponent implements OnInit {
             return;
         }
 
-        if (!text.toLowerCase().includes('file;hash')) {
-            this.gameFileCheckOutput = undefined;
-            this.errors.push('NOT_EXTENDED_REPORT')
-            return;
+        const extendedLog = text.toLowerCase().includes('file;hash');
+        if (!extendedLog) {
+            this.addWarning('NOT_EXTENDED_REPORT')
         }
 
         let output = '';
         let gameFileErrors = 0;
         const fileLines = this.splitIntoLines(text);
         for (let fileLine of fileLines) {
-            if (fileLine.toLowerCase() == 'file;hash' || fileLine.length == 0) continue;
-            const file = fileLine.split(';')[0]
+            if (fileLine.length == 0) continue;
+            let file = fileLine
+            if (extendedLog) {
+                file = fileLine.split(';')[0]
+            }
             if (file.toLowerCase().includes('.egstore') || file.toLowerCase().includes('redistributables') || file.toLowerCase().includes('readme') || file.toLowerCase().includes('eossdk-win64-shipping')) continue;
             if (file.toLowerCase().includes('reshade')) {
-                if (!this.errors.includes('RESHADE_DETECTED')) {
-                    this.errors.push('RESHADE_DETECTED');
-                }
+                this.addWarning('RESHADE_DETECTED')
                 gameFileErrors++;
                 continue;
             }
             if (file.toLowerCase().includes('enb')) {
-                if (!this.errors.includes('ENB_DETECTED')) {
-                    this.errors.push('ENB_DETECTED');
-                }
+                this.addWarning('ENB_DETECTED')
                 gameFileErrors++;
                 continue;
             }
-            const hash = fileLine.split(';')[1]
+            let hash = undefined;
+            if (extendedLog) {
+                hash = fileLine.split(';')[1]
+            }
             const o = this.originalGameFiles.find(x => x.startsWith(file));
-            if (o == undefined || !o.includes(hash)) {
+            if (o == undefined || hash != undefined && !o.includes(hash)) {
                 console.log(`${file} has an invalid hash! (Should: ${(o != null ? o.split(';')[1] : undefined)} | Is: ${hash})`)
 
                 const tag = o == undefined ? 'FILE_UNKNOWN' : 'FILE_HASH_DOES_NOT_MATCH';
-                if (!this.errors.includes(tag)) {
-                    this.errors.push(tag);
-                }
+                this.addError(tag)
                 output += `${file} (${tag})\n`
                 gameFileErrors++;
             }
@@ -278,8 +277,10 @@ export class AppComponent implements OnInit {
             this.processesChecked2++;
             if (error == undefined) continue;
             this.processesFailed++;
-            if (!this.errors.includes(error.error)) {
-                this.errors.push(error.error);
+            if (error.error != undefined) {
+                this.addError(error.error)
+            } else if (error.warning != undefined) {
+                this.addWarning(error.warning)
             }
             this.processesDetails.push(fileLine)
         }
@@ -294,8 +295,10 @@ export class AppComponent implements OnInit {
             const error = this.originalClient.find(s => fileLine.toLowerCase().includes(s.name.toLowerCase()));
             if (error == undefined) continue;
             this.clientFailed++;
-            if (!this.errors.includes(error.error)) {
-                this.errors.push(error.error);
+            if (error.error != undefined) {
+                this.addError(error.error)
+            } else if (error.warning != undefined) {
+                this.addWarning(error.warning)
             }
             this.clientDetails.push(fileLine)
         }
@@ -384,5 +387,17 @@ export class AppComponent implements OnInit {
         });
 
         return translatedArray;
+    }
+
+    addWarning(identifier: string) {
+        if (!this.warnings.includes(identifier)) {
+            this.warnings.push(identifier);
+        }
+    }
+
+    addError(identifier: string) {
+        if (!this.errors.includes(identifier)) {
+            this.errors.push(identifier);
+        }
     }
 }

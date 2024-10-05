@@ -176,7 +176,26 @@
             <p>{{ message | translate }}</p>
             <br>
             <input *ngIf="!uploadDisabled" type="file" (change)="onFileSelected($event)"/>
-            <br *ngIf="errors.length != 0">
+            <br *ngIf="errors.length != 0 || warnings.length != 0">
+            <div class="warnings" *ngIf="warnings.length != 0">
+                <br>
+                <app-collapsible-span [title]="'show-warnings' | translate" [isExpanded]="false">
+                    @for (warning of warnings; track warning) {
+                        <hr>
+                        <span>
+                        {{ 'warnings.' + warning + '.message' | translate }}<br>
+                        <app-collapsible-span [title]="'possible-solutions' | translate">
+                            <ul>
+                                <li *ngFor="let item of getTranslatedArray('warnings.' + warning + '.possible-solutions')"
+                                    [innerHtml]="item | safe:'html'">
+                                </li>
+                            </ul>
+                        </app-collapsible-span>
+                    </span>
+                    }
+                </app-collapsible-span>
+                <br>
+            </div>
             <div class="errors" *ngIf="errors.length != 0">
                 <br>
                 <app-collapsible-span [title]="'show-errors' | translate" [isExpanded]="true">
