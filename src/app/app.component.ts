@@ -16,6 +16,7 @@ import {CheckResult, FileCheckApi} from "./api/file-check.api";
 })
 export class AppComponent implements OnInit {
 
+    api: FileCheckApi = new FileCheckApi();
     result: CheckResult = new CheckResult()
 
     constructor(private http: HttpClient,
@@ -31,8 +32,8 @@ export class AppComponent implements OnInit {
     }
 
     async ngOnInit() {
-        await FileCheckApi.init(this.http)
-        this.result = FileCheckApi.result();
+        await this.api.init(this.http)
+        this.result = this.api.result();
     }
 
     async onFileSelected(event: Event): Promise<void> {
@@ -50,16 +51,8 @@ export class AppComponent implements OnInit {
         if (input.files && input.files.length > 0) {
             const file = input.files[0];
 
-            this.result = await FileCheckApi.processFile(file)
+            this.result = await this.api.processFile(file)
         }
-    }
-
-    private isTextReadable(text: string): boolean {
-        return /^[\x00-\x7F]*$/.test(text);
-    }
-
-    private splitIntoLines(text: string): string[] {
-        return text.split(/\r?\n/);
     }
 
     getTranslatedArray(key: string): string[] {

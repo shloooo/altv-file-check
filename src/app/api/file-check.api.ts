@@ -3,48 +3,48 @@ import {HttpClient} from "@angular/common/http";
 
 export class FileCheckApi {
 
-    static originalGameFiles: string[] | undefined = undefined;
-    private static originalProcesses: { name: string; warning: string; error: string; }[] = [];
-    private static originalClient: { name: string; warning: string; error: string; }[] = [];
-    private static uploadDisabled: boolean = false;
-    private static checked: boolean = false;
+    originalGameFiles: string[] | undefined = undefined;
+    private originalProcesses: { name: string; warning: string; error: string; }[] = [];
+    private originalClient: { name: string; warning: string; error: string; }[] = [];
+    private uploadDisabled: boolean = false;
+    private checked: boolean = false;
 
-    private static message = 'check.not-started';
+    private message = 'check.not-started';
 
     // game.txt check
-    private static gameFileErrors: number = 0;
-    private static gameFilesTotal: number = 0;
-    private static gameFileCheckOutput: string[] | undefined = undefined;
+    private gameFileErrors: number = 0;
+    private gameFilesTotal: number = 0;
+    private gameFileCheckOutput: string[] | undefined = undefined;
 
     // processes.txt check
-    private static processesChecked: boolean = false;
-    private static processesChecked2: number = 0;
-    private static processesFailed: number = 0;
-    private static processesDetails: string[] = [];
+    private processesChecked: boolean = false;
+    private processesChecked2: number = 0;
+    private processesFailed: number = 0;
+    private processesDetails: string[] = [];
 
     // client.log check
-    private static clientChecked: boolean = false;
-    private static clientFailed: number = 0;
-    private static clientDetails: string[] = [];
+    private clientChecked: boolean = false;
+    private clientFailed: number = 0;
+    private clientDetails: string[] = [];
 
     // ERRORS
-    private static warnings: string[] = [];
-    private static errors: string[] = [];
+    private warnings: string[] = [];
+    private errors: string[] = [];
     // ERRORS
 
-    static async init(http: HttpClient) {
+    async init(http: HttpClient) {
         await this.loadRequiredFiles(http);
     }
 
-    private static isTextReadable(text: string): boolean {
+    private isTextReadable(text: string): boolean {
         return /^[\x00-\x7F]*$/.test(text);
     }
 
-    private static splitIntoLines(text: string): string[] {
+    private splitIntoLines(text: string): string[] {
         return text.split(/\r?\n/);
     }
     
-    static async processFile(file: File) {
+    async processFile(file: File) {
         this.errors = [];
         this.processesChecked = false;
         this.clientChecked = false;
@@ -64,7 +64,7 @@ export class FileCheckApi {
         return this.result();
     }
 
-    private static async processTextFile(file: File): Promise<void> {
+    private async processTextFile(file: File): Promise<void> {
         const reader = new FileReader();
 
         reader.onload = async (e) => {
@@ -102,7 +102,7 @@ export class FileCheckApi {
         reader.readAsText(file);
     }
 
-    private static async processZipFile(file: File): Promise<void> {
+    private async processZipFile(file: File): Promise<void> {
         try {
             const zip = new JSZip();
             const zipContent = await zip.loadAsync(file);
@@ -172,7 +172,7 @@ export class FileCheckApi {
         }
     }
 
-    static async checkGameFile(text: string): Promise<void> {
+    async checkGameFile(text: string): Promise<void> {
         if (this.originalGameFiles == undefined) {
             alert('Could not access original game files')
             return;
@@ -231,7 +231,7 @@ export class FileCheckApi {
         this.gameFileCheckOutput = this.splitIntoLines(output);
     }
 
-    static async checkProcessesFile(text: string): Promise<void> {
+    async checkProcessesFile(text: string): Promise<void> {
         this.processesChecked = true;
         this.processesChecked2 = 0;
         this.processesFailed = 0;
@@ -249,7 +249,7 @@ export class FileCheckApi {
         }
     }
 
-    static async checkClientFile(text: string): Promise<void> {
+    async checkClientFile(text: string): Promise<void> {
         this.clientChecked = true;
         this.clientFailed = 0;
         this.clientDetails = [];
@@ -265,7 +265,7 @@ export class FileCheckApi {
         }
     }
 
-    static async loadRequiredFiles(http: HttpClient): Promise<void> {
+    async loadRequiredFiles(http: HttpClient): Promise<void> {
         try {
             // game.txt
             {
@@ -338,19 +338,19 @@ export class FileCheckApi {
         }
     }
 
-    static addWarning(identifier: string) {
+    addWarning(identifier: string) {
         if (!this.warnings.includes(identifier)) {
             this.warnings.push(identifier);
         }
     }
 
-    static addError(identifier: string) {
+    addError(identifier: string) {
         if (!this.errors.includes(identifier)) {
             this.errors.push(identifier);
         }
     }
 
-    static result(): CheckResult {
+    result(): CheckResult {
         return {
             message: this.message,
 
