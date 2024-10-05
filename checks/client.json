@@ -5,6 +5,6 @@
     },
     {
         "name": "Pool is full",
-        "error": "POOL_IS_FULL"
+        "warning": "POOL_IS_FULL"
     }
 ]

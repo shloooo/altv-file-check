@@ -1,4 +1,5 @@
 {
+  "show-warnings": "Show warnings",
   "show-errors": "Show errors",
   "possible-solutions": "Possible solutions:",
   "more-details": "More details",
@@ -24,23 +25,43 @@
     "invalid-file": "The selected file is not valid.",
     "done": "Check is completed!"
   },
-  "errors": {
+  "warnings": {
     "NOT_EXTENDED_REPORT": {
-      "message": "The game file check could not be performed because the report or the selected file does not originate from an extended report.",
+      "message": "The game data has been checked, but the hash check is not available.",
       "possible-solutions": [
         "Create a <a href=\"altv://action/report?extended=true\">extended report</a> (This may take a while)"
       ]
     },
-    "FILE_HASH_DOES_NOT_MATCH": {
-      "message": "FILE_HASH_DOES_NOT_MATCH means that the hash of the file does not match the original ones.",
+    "FILE_UNKNOWN": {
+      "message": "There are files in the GTA installation that may not belong to the game. (FILE_UNKNOWN)",
       "possible-solutions": [
+        "Remove the file",
         "Verify the game integrity"
       ]
     },
-    "FILE_UNKNOWN": {
-      "message": "FILE_UNKNOWN means that the file is not known. (Files that belong to Epic Games or Steam can be ignored)",
+    "RESHADE_DETECTED": {
+      "message": "Reshade was recognized in the game folder",
       "possible-solutions": [
-        "Remove the file",
+        "Remove Reshade from the game folder and put it in the alt:V Mods folder instead"
+      ]
+    },
+    "ENB_DETECTED": {
+      "message": "ENB was recognized in the game folder",
+      "possible-solutions": [
+        "Remove ENB from the game folder and put it in the alt:V Mods folder instead"
+      ]
+    },
+    "POOL_IS_FULL": {
+      "message": "A internal pool is full which can cause crashs",
+      "possible-solutions": [
+        "Contact the server support"
+      ]
+    }
+  },
+  "errors": {
+    "FILE_HASH_DOES_NOT_MATCH": {
+      "message": "Some hashes from the GTA installation are not correct. (FILE_HASH_DOES_NOT_MATCH)",
+      "possible-solutions": [
         "Verify the game integrity"
       ]
     },
@@ -92,24 +113,6 @@
       "possible-solutions": [
         "Remove avira from your system",
         "Add alt:V as an exception for Bitdefender"
-      ]
-    },
-    "RESHADE_DETECTED": {
-      "message": "Reshade was recognized in the game folder",
-      "possible-solutions": [
-        "Remove Reshade from the game folder and put it in the alt:V Mods folder instead"
-      ]
-    },
-    "ENB_DETECTED": {
-      "message": "ENB was recognized in the game folder",
-      "possible-solutions": [
-        "Remove ENB from the game folder and put it in the alt:V Mods folder instead"
-      ]
-    },
-    "POOL_IS_FULL": {
-      "message": "A internal pool is full which can cause crashs",
-      "possible-solutions": [
-        "Contact the server support"
       ]
     },
     "CLOSE_OPERA_GX": {

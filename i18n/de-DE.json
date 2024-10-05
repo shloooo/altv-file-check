@@ -1,4 +1,5 @@
 {
+  "show-warnings": "Warnungen anzeigen",
   "show-errors": "Fehler anzeigen",
   "possible-solutions": "Mögliche Lösungen:",
   "more-details": "Mehr Details",
@@ -24,23 +25,43 @@
     "invalid-file": "Die ausgewählte Datei ist nicht gültig.",
     "done": "Prüfung abgeschlossen"
   },
-  "errors": {
+  "warnings": {
     "NOT_EXTENDED_REPORT": {
-      "message": "Der Spieldatei Check konnte nicht durchgeführt werden, da der Report oder die gewählte Datei nicht von einem erweitertem Report stammt.",
+      "message": "Die Spieldaten wurden zwar geprüft, jedoch ist der Hash-Check nicht verfügbar.",
       "possible-solutions": [
         "Erstelle einen <a href=\"altv://action/report?extended=true\">erweiterten Report</a> (Dies könnte eine Weile dauern)"
       ]
     },
-    "FILE_HASH_DOES_NOT_MATCH": {
-      "message": "FILE_HASH_DOES_NOT_MATCH bedeutet das möglicherweise einige Datein nicht mit der originalen Datein übereinstimmen.",
+    "FILE_UNKNOWN": {
+      "message": "Es existieren Datein in der GTA Installation, welche möglicherweise nicht zum Spiel gehören. (FILE_UNKNOWN)",
       "possible-solutions": [
+        "Datei entfernen",
         "Überprüfen der Spielintegrität"
       ]
     },
-    "FILE_UNKNOWN": {
-      "message": "FILE_UNKNOWN bedeutet das die Datei nicht zum Spiel dazugehört. (Steam oder Epic Games Datein können ignoriert werden)",
+    "RESHADE_DETECTED": {
+      "message": "Reshade wurde im Spielordner erkannt",
       "possible-solutions": [
-        "Datei entfernen",
+        "Entferne Reshade aus dem Spielordner und pack ihn stattdessen in den alt:V Mods Ordner"
+      ]
+    },
+    "ENB_DETECTED": {
+      "message": "ENB wurde im Spielordner erkannt",
+      "possible-solutions": [
+        "Entferne ENB aus dem Spielordner und pack ihn stattdessen in den alt:V Mods Ordner"
+      ]
+    },
+    "POOL_IS_FULL": {
+      "message": "Ein interner Pool ist voll, was zu Abstürzen führen kann",
+      "possible-solutions": [
+        "Wende dich an den Server-Support"
+      ]
+    }
+  },
+  "errors": {
+    "FILE_HASH_DOES_NOT_MATCH": {
+      "message": "Einige Hashes von der GTA Installation sind nicht korrekt. (FILE_HASH_DOES_NOT_MATCH)",
+      "possible-solutions": [
         "Überprüfen der Spielintegrität"
       ]
     },
@@ -92,24 +113,6 @@
       "possible-solutions": [
         "Deinstalliere Bitdefender",
         "Füge alt:V als Ausnahme bei Bitdefender hinzu"
-      ]
-    },
-    "RESHADE_DETECTED": {
-      "message": "Reshade wurde im Spielordner erkannt",
-      "possible-solutions": [
-        "Entferne Reshade aus dem Spielordner und pack ihn stattdessen in den alt:V Mods Ordner"
-      ]
-    },
-    "ENB_DETECTED": {
-      "message": "ENB wurde im Spielordner erkannt",
-      "possible-solutions": [
-        "Entferne ENB aus dem Spielordner und pack ihn stattdessen in den alt:V Mods Ordner"
-      ]
-    },
-    "POOL_IS_FULL": {
-      "message": "Ein interner Pool ist voll, was zu Abstürzen führen kann",
-      "possible-solutions": [
-        "Wende dich an den Server-Support"
       ]
     },
     "CLOSE_OPERA_GX": {
