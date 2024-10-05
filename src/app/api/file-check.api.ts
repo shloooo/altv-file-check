@@ -4,8 +4,8 @@ import {HttpClient} from "@angular/common/http";
 export class FileCheckApi {
 
     static originalGameFiles: string[] | undefined = undefined;
-    private static originalProcesses: { name: string; error: string; }[] = [];
-    private static originalClient: { name: string; error: string; }[] = [];
+    private static originalProcesses: { name: string; warning: string; error: string; }[] = [];
+    private static originalClient: { name: string; warning: string; error: string; }[] = [];
     private static uploadDisabled: boolean = false;
     private static checked: boolean = false;
 
@@ -28,6 +28,7 @@ export class FileCheckApi {
     private static clientDetails: string[] = [];
 
     // ERRORS
+    private static warnings: string[] = [];
     private static errors: string[] = [];
     // ERRORS
 
@@ -41,6 +42,26 @@ export class FileCheckApi {
 
     private static splitIntoLines(text: string): string[] {
         return text.split(/\r?\n/);
+    }
+    
+    static async processFile(file: File) {
+        this.errors = [];
+        this.processesChecked = false;
+        this.clientChecked = false;
+
+        if (file.type === 'text/plain') {
+            await this.processTextFile(file);
+            this.message = `check.done`;
+        } else if (file.name.endsWith('.zip')) {
+            await this.processZipFile(file);
+            this.message = `check.done`;
+        } else {
+            this.message = 'check.invalid-file';
+            this.gameFileCheckOutput = undefined;
+            this.errors = [];
+        }
+        
+        return this.result();
     }
 
     private static async processTextFile(file: File): Promise<void> {
@@ -157,41 +178,44 @@ export class FileCheckApi {
             return;
         }
 
-        if (!text.toLowerCase().includes('file;hash')) {
-            this.gameFileCheckOutput = undefined;
-            this.errors.push('NOT_EXTENDED_REPORT')
-            return;
+        const extendedLog = text.toLowerCase().includes('file;hash');
+        if (!extendedLog) {
+            this.addWarning('NOT_EXTENDED_REPORT')
         }
 
         let output = '';
         let gameFileErrors = 0;
         const fileLines = this.splitIntoLines(text);
         for (let fileLine of fileLines) {
-            if (fileLine.toLowerCase() == 'file;hash' || fileLine.length == 0) continue;
-            const file = fileLine.split(';')[0]
-            if (file.toLowerCase().includes('.egstore') || file.toLowerCase().includes('redistributables') || file.toLowerCase().includes('readme') || file.toLowerCase().includes('eossdk-win64-shipping')) continue;
+            if (fileLine.length == 0) continue;
+            let file = fileLine
+            if (extendedLog) {
+                file = fileLine.split(';')[0]
+            }
+            if (file.toLowerCase().includes('battleeye') || file.toLowerCase().includes('.egstore') || file.toLowerCase().includes('redistributables') || file.toLowerCase().includes('readme') || file.toLowerCase().includes('eossdk-win64-shipping')) continue;
             if (file.toLowerCase().includes('reshade')) {
-                if (!this.errors.includes('RESHADE_DETECTED')) {
-                    this.errors.push('RESHADE_DETECTED');
-                }
+                this.addWarning('RESHADE_DETECTED')
                 gameFileErrors++;
                 continue;
             }
             if (file.toLowerCase().includes('enb')) {
-                if (!this.errors.includes('ENB_DETECTED')) {
-                    this.errors.push('ENB_DETECTED');
-                }
+                this.addWarning('ENB_DETECTED')
                 gameFileErrors++;
                 continue;
             }
-            const hash = fileLine.split(';')[1]
+            let hash = undefined;
+            if (extendedLog) {
+                hash = fileLine.split(';')[1]
+            }
             const o = this.originalGameFiles.find(x => x.startsWith(file));
-            if (o == undefined || !o.includes(hash)) {
+            if (o == undefined || hash != undefined && !o.includes(hash)) {
                 console.log(`${file} has an invalid hash! (Should: ${(o != null ? o.split(';')[1] : undefined)} | Is: ${hash})`)
 
                 const tag = o == undefined ? 'FILE_UNKNOWN' : 'FILE_HASH_DOES_NOT_MATCH';
-                if (!this.errors.includes(tag)) {
-                    this.errors.push(tag);
+                if (tag == 'FILE_UNKNOWN') {
+                    this.addWarning(tag)
+                } else {
+                    this.addError(tag)
                 }
                 output += `${file} (${tag})\n`
                 gameFileErrors++;
@@ -313,4 +337,72 @@ export class FileCheckApi {
             this.uploadDisabled = true;
         }
     }
+
+    static addWarning(identifier: string) {
+        if (!this.warnings.includes(identifier)) {
+            this.warnings.push(identifier);
+        }
+    }
+
+    static addError(identifier: string) {
+        if (!this.errors.includes(identifier)) {
+            this.errors.push(identifier);
+        }
+    }
+
+    static result(): CheckResult {
+        return {
+            message: this.message,
+
+            // game.txt check
+            gameFileErrors: this.gameFileErrors,
+            gameFilesTotal: this.gameFilesTotal,
+            gameFileCheckOutput: this.gameFileCheckOutput,
+            uploadDisabled: this.uploadDisabled,
+            checked: this.checked,
+
+            // processes.txt check
+            processesChecked: this.processesChecked,
+            processesChecked2: this.processesChecked2,
+            processesFailed: this.processesFailed,
+            processesDetails: this.processesDetails,
+
+            // client.log check
+            clientChecked: this.clientChecked,
+            clientFailed: this.clientFailed,
+            clientDetails: this.clientDetails,
+
+            // ERRORS
+            warnings: this.warnings,
+            errors: this.errors
+            // ERRORS
+        }
+    }
+}
+
+export class CheckResult {
+    message: string = 'check.not-started';
+
+    // game.txt check
+    gameFileErrors: number = 0;
+    gameFilesTotal: number = 0;
+    gameFileCheckOutput: string[] | undefined = undefined;
+    uploadDisabled: boolean = false;
+    checked: boolean = false;
+
+    // processes.txt check
+    processesChecked: boolean = false;
+    processesChecked2: number = 0;
+    processesFailed: number = 0;
+    processesDetails: string[] = [];
+
+    // client.log check
+    clientChecked: boolean = false;
+    clientFailed: number = 0;
+    clientDetails: string[] = [];
+
+    // ERRORS
+    warnings: string[] = [];
+    errors: string[] = [];
+    // ERRORS
 }

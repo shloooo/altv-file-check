@@ -63,10 +63,6 @@
         position: relative;
     }
 
-    .angular-logo {
-        max-width: 9.2rem;
-    }
-
     .content {
         display: flex;
         justify-content: space-around;
@@ -82,105 +78,20 @@
     .content p {
         margin-top: 1.5rem;
     }
-
-    .divider {
-        width: 1px;
-        background: var(--red-to-pink-to-purple-vertical-gradient);
-        margin-inline: 0.5rem;
-    }
-
-    .pill-group {
-        display: flex;
-        flex-direction: column;
-        align-items: start;
-        flex-wrap: wrap;
-        gap: 1.25rem;
-    }
-
-    .pill {
-        display: flex;
-        align-items: center;
-        --pill-accent: var(--bright-blue);
-        background: color-mix(in srgb, var(--pill-accent) 5%, transparent);
-        color: var(--pill-accent);
-        padding-inline: 0.75rem;
-        padding-block: 0.375rem;
-        border-radius: 2.75rem;
-        border: 0;
-        transition: background 0.3s ease;
-        font-size: 0.875rem;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 1.4rem;
-        letter-spacing: -0.00875rem;
-        text-decoration: none;
-    }
-
-    .pill:hover {
-        background: color-mix(in srgb, var(--pill-accent) 15%, transparent);
-    }
-
-    .pill-group .pill:nth-child(6n + 1) {
-        --pill-accent: var(--bright-blue);
-    }
-
-    .pill-group .pill:nth-child(6n + 2) {
-        --pill-accent: var(--french-violet);
-    }
-
-    .pill-group .pill:nth-child(6n + 3),
-    .pill-group .pill:nth-child(6n + 4),
-    .pill-group .pill:nth-child(6n + 5) {
-        --pill-accent: var(--hot-red);
-    }
-
-    .pill-group svg {
-        margin-inline-start: 0.25rem;
-    }
-
-    .social-links {
-        display: flex;
-        align-items: center;
-        gap: 0.73rem;
-        margin-top: 1.5rem;
-    }
-
-    .social-links path {
-        transition: fill 0.3s ease;
-        fill: var(--gray-400);
-    }
-
-    .social-links a:hover svg path {
-        fill: var(--gray-900);
-    }
-
-    @media screen and (max-width: 650px) {
-        .content {
-            flex-direction: column;
-            width: max-content;
-        }
-
-        .divider {
-            height: 1px;
-            width: 100%;
-            background: var(--red-to-pink-to-purple-horizontal-gradient);
-            margin-block: 1.5rem;
-        }
-    }
 </style>
 
 <main class="main">
     <div class="content">
         <div class="left-side">
             <h1>Hey! 👋</h1>
-            <p>{{ message | translate }}</p>
+            <p>{{ result.message | translate }}</p>
             <br>
-            <input *ngIf="!uploadDisabled" type="file" (change)="onFileSelected($event)"/>
-            <br *ngIf="errors.length != 0 || warnings.length != 0">
-            <div class="warnings" *ngIf="warnings.length != 0">
+            <input *ngIf="!result.uploadDisabled" type="file" (change)="onFileSelected($event)"/>
+            <br *ngIf="result.errors.length != 0 || result.warnings.length != 0">
+            <div class="warnings" *ngIf="result.warnings.length != 0">
                 <br>
                 <app-collapsible-span [title]="'show-warnings' | translate" [isExpanded]="false">
-                    @for (warning of warnings; track warning) {
+                    @for (warning of result.warnings; track warning) {
                         <hr>
                         <span>
                         {{ 'warnings.' + warning + '.message' | translate }}<br>
@@ -196,10 +107,10 @@
                 </app-collapsible-span>
                 <br>
             </div>
-            <div class="errors" *ngIf="errors.length != 0">
-                <br *ngIf="warnings.length == 0">
+            <div class="errors" *ngIf="result.errors.length != 0">
+                <br *ngIf="result.warnings.length == 0">
                 <app-collapsible-span [title]="'show-errors' | translate" [isExpanded]="false">
-                    @for (error of errors; track error) {
+                    @for (error of result.errors; track error) {
                         <hr>
                         <span>
                         {{ 'errors.' + error + '.message' | translate }}<br>
@@ -215,49 +126,49 @@
                 </app-collapsible-span>
                 <br>
             </div>
-            <hr *ngIf="checked">
-            <div *ngIf="checked && gameFileCheckOutput != undefined">
-                <span *ngIf="gameFileCheckOutput.length == 0">✅ {{ 'game-file-check.all-valid' | translate }}</span>
-                <span *ngIf="gameFileCheckOutput.length > 0">❌ {{ 'game-file-check.detailed' | translate:{files:gameFilesTotal, failed:gameFileErrors } }}</span>
-                <br *ngIf="gameFileCheckOutput.length > 0">
-                <br *ngIf="gameFileCheckOutput.length > 0">
-                <app-collapsible-span [title]="'more-details' | translate" *ngIf="gameFileCheckOutput.length > 0">
-                    @for (item of gameFileCheckOutput; track item) {
+            <hr *ngIf="result.checked">
+            <div *ngIf="result.checked && result.gameFileCheckOutput != undefined">
+                <span *ngIf="result.gameFileCheckOutput.length == 0">✅ {{ 'game-file-check.all-valid' | translate }}</span>
+                <span *ngIf="result.gameFileCheckOutput.length > 0">❌ {{ 'game-file-check.detailed' | translate:{files:result.gameFilesTotal, failed:result.gameFileErrors } }}</span>
+                <br *ngIf="result.gameFileCheckOutput.length > 0">
+                <br *ngIf="result.gameFileCheckOutput.length > 0">
+                <app-collapsible-span [title]="'more-details' | translate" *ngIf="result.gameFileCheckOutput.length > 0">
+                    @for (item of result.gameFileCheckOutput; track item) {
                         <div>{{ item }}</div>
                     }
                 </app-collapsible-span>
             </div>
-            <div *ngIf="checked && gameFileCheckOutput == undefined">
+            <div *ngIf="result.checked && result.gameFileCheckOutput == undefined">
                 <span>❌ {{ 'game-file-check.not-available' | translate }}</span>
             </div>
-            <hr *ngIf="checked">
-            <div *ngIf="checked && processesChecked">
-                <span *ngIf="processesFailed == 0">✅ {{ 'processes-check.all-valid' | translate }}</span>
-                <span *ngIf="processesFailed > 0">❌ {{ 'processes-check.detailed' | translate:{processes:processesChecked2, failed:processesFailed } }}</span>
-                <br *ngIf="processesDetails.length > 0">
-                <br *ngIf="processesDetails.length > 0">
-                <app-collapsible-span [title]="'more-details' | translate" *ngIf="processesDetails.length > 0">
-                    @for (item of processesDetails; track item) {
+            <hr *ngIf="result.checked">
+            <div *ngIf="result.checked && result.processesChecked">
+                <span *ngIf="result.processesFailed == 0">✅ {{ 'processes-check.all-valid' | translate }}</span>
+                <span *ngIf="result.processesFailed > 0">❌ {{ 'processes-check.detailed' | translate:{processes:result.processesChecked2, failed:result.processesFailed } }}</span>
+                <br *ngIf="result.processesDetails.length > 0">
+                <br *ngIf="result.processesDetails.length > 0">
+                <app-collapsible-span [title]="'more-details' | translate" *ngIf="result.processesDetails.length > 0">
+                    @for (item of result.processesDetails; track item) {
                         <div>{{ item }}</div>
                     }
                 </app-collapsible-span>
             </div>
-            <div *ngIf="checked && !processesChecked">
+            <div *ngIf="result.checked && !result.processesChecked">
                 <span>❌ {{ 'processes-check.not-available' | translate }}</span>
             </div>
-            <hr *ngIf="checked">
-            <div *ngIf="checked && clientChecked">
-                <span *ngIf="clientFailed == 0">✅ {{ 'client-check.all-valid' | translate }}</span>
-                <span *ngIf="clientFailed > 0">❌ {{ 'client-check.detailed' | translate:{failed:clientFailed} }}</span>
-                <br *ngIf="clientDetails.length > 0">
-                <br *ngIf="clientDetails.length > 0">
-                <app-collapsible-span [title]="'more-details' | translate" *ngIf="clientDetails.length > 0">
-                    @for (item of clientDetails; track item) {
+            <hr *ngIf="result.checked">
+            <div *ngIf="result.checked && result.clientChecked">
+                <span *ngIf="result.clientFailed == 0">✅ {{ 'client-check.all-valid' | translate }}</span>
+                <span *ngIf="result.clientFailed > 0">❌ {{ 'client-check.detailed' | translate:{failed:result.clientFailed} }}</span>
+                <br *ngIf="result.clientDetails.length > 0">
+                <br *ngIf="result.clientDetails.length > 0">
+                <app-collapsible-span [title]="'more-details' | translate" *ngIf="result.clientDetails.length > 0">
+                    @for (item of result.clientDetails; track item) {
                         <div>{{ item }}</div>
                     }
                 </app-collapsible-span>
             </div>
-            <div *ngIf="checked && !clientChecked">
+            <div *ngIf="result.checked && !result.clientChecked">
                 <span>❌ {{ 'client-check.not-available' | translate }}</span>
             </div>
             <p>
