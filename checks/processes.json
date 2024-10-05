@@ -1,42 +1,42 @@
 [
     {
         "name": "BullGuard",
-        "error": "REMOVE_BULLGUARD"
+        "warning": "REMOVE_BULLGUARD"
     },
     {
         "name": "ESET",
-        "error": "REMOVE_ESET"
+        "warning": "REMOVE_ESET"
     },
     {
         "name": "Avira",
-        "error": "REMOVE_OR_DISABLE_AVIRA"
+        "warning": "REMOVE_OR_DISABLE_AVIRA"
     },
     {
         "name": "Overwolf",
-        "error": "DISABLE_OVERLAYS"
+        "warning": "DISABLE_OVERLAYS"
     },
     {
         "name": "OneDrive",
-        "error": "REMOVE_ONEDRIVE"
+        "warning": "REMOVE_ONEDRIVE"
     },
     {
         "name": "Sophos",
-        "error": "REMOVE_SOPHOS"
+        "warning": "REMOVE_SOPHOS"
     },
     {
         "name": "Avast",
-        "error": "REMOVE_AVAST"
+        "warning": "REMOVE_AVAST"
     },
     {
         "name": "Bitdefender",
-        "error": "REMOVE_OR_DISABLE_BITDEFENDER"
+        "warning": "REMOVE_OR_DISABLE_BITDEFENDER"
     },
     {
         "name": "Opera GX",
-        "error": "CLOSE_OPERA_GX"
+        "warning": "CLOSE_OPERA_GX"
     },
     {
         "name": "iCUE",
-        "error": "CLOSE_CORSAIR_ICUE"
+        "warning": "CLOSE_CORSAIR_ICUE"
     }
 ]

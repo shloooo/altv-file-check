@@ -56,14 +56,6 @@
       "possible-solutions": [
         "Wende dich an den Server-Support"
       ]
-    }
-  },
-  "errors": {
-    "FILE_HASH_DOES_NOT_MATCH": {
-      "message": "Einige Hashes von der GTA Installation sind nicht korrekt. (FILE_HASH_DOES_NOT_MATCH)",
-      "possible-solutions": [
-        "Überprüfen der Spielintegrität"
-      ]
     },
     "REMOVE_BULLGUARD": {
       "message": "BullGuard blockiert alt:V",
@@ -125,6 +117,14 @@
       "message": "Corsair iCUE kann dazu führen, dass alt:V nicht startet",
       "possible-solutions": [
         "Versuche Corsair iCUE zu schließen"
+      ]
+    }
+  },
+  "errors": {
+    "FILE_HASH_DOES_NOT_MATCH": {
+      "message": "Einige Hashes von der GTA Installation sind nicht korrekt. (FILE_HASH_DOES_NOT_MATCH)",
+      "possible-solutions": [
+        "Überprüfen der Spielintegrität"
       ]
     },
     "EXAMPLE": {
