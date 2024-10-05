@@ -231,7 +231,7 @@ export class AppComponent implements OnInit {
             if (extendedLog) {
                 file = fileLine.split(';')[0]
             }
-            if (file.toLowerCase().includes('.egstore') || file.toLowerCase().includes('redistributables') || file.toLowerCase().includes('readme') || file.toLowerCase().includes('eossdk-win64-shipping')) continue;
+            if (file.toLowerCase().includes('battleeye') || file.toLowerCase().includes('.egstore') || file.toLowerCase().includes('redistributables') || file.toLowerCase().includes('readme') || file.toLowerCase().includes('eossdk-win64-shipping')) continue;
             if (file.toLowerCase().includes('reshade')) {
                 this.addWarning('RESHADE_DETECTED')
                 gameFileErrors++;
