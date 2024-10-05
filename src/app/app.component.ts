@@ -251,7 +251,11 @@ export class AppComponent implements OnInit {
                 console.log(`${file} has an invalid hash! (Should: ${(o != null ? o.split(';')[1] : undefined)} | Is: ${hash})`)
 
                 const tag = o == undefined ? 'FILE_UNKNOWN' : 'FILE_HASH_DOES_NOT_MATCH';
-                this.addError(tag)
+                if (tag == 'FILE_UNKNOWN') {
+                    this.addWarning(tag)
+                } else {
+                    this.addError(tag)
+                }
                 output += `${file} (${tag})\n`
                 gameFileErrors++;
             }
