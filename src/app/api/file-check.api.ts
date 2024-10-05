@@ -225,7 +225,7 @@ export class FileCheckApi {
                 } else {
                     this.addError(tag)
                 }
-                output += `${file} (${tag})\n`
+                output += `${tag == 'FILE_UNKNOWN' ? '⚠️' : '❌'} ${file} (${tag})\n`
                 gameFileErrors++;
             }
         }
@@ -250,10 +250,13 @@ export class FileCheckApi {
             this.processesChecked2++;
             if (error == undefined) continue;
             this.processesFailed++;
-            if (!this.errors.includes(error.error)) {
-                this.errors.push(error.error);
+            if (error.error != undefined) {
+                this.addError(error.error)
+                this.processesDetails.push(`❌ ${fileLine}`)
+            } else if (error.warning != undefined) {
+                this.addWarning(error.warning)
+                this.processesDetails.push(`⚠️ ${fileLine}`)
             }
-            this.processesDetails.push(fileLine)
         }
     }
 
@@ -266,10 +269,13 @@ export class FileCheckApi {
             const error = this.originalClient.find(s => fileLine.toLowerCase().includes(s.name.toLowerCase()));
             if (error == undefined) continue;
             this.clientFailed++;
-            if (!this.errors.includes(error.error)) {
-                this.errors.push(error.error);
+            if (error.error != undefined) {
+                this.addError(error.error)
+                this.clientDetails.push(`❌ ${fileLine}`)
+            } else if (error.warning != undefined) {
+                this.addWarning(error.warning)
+                this.clientDetails.push(`⚠️ ${fileLine}`)
             }
-            this.clientDetails.push(fileLine)
         }
     }
 
