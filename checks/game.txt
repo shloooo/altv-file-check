@@ -73,8 +73,6 @@ NvPmApi.Core.win64.dll;5df0badf6afc909d
 opus.dll;333cd516eb6e434b
 opusenc.dll;9786a49eb6b3a2fe
 PlayGTAV.exe;1e782d990b4d2780
-Redistributables\Rockstar-Games-Launcher.exe;d46e9bad217d5a99
-Redistributables\Social-Club-Setup.exe;717ebe57b8d3edb6
 steam_api64.dll;6c2ba02f69612492
 title.rgl;c732c5ccce8c8198
 update\update.rpf;f4a5e29101cdb1d5
