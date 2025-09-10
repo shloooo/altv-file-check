@@ -38,5 +38,9 @@
     {
         "name": "iCUE",
         "warning": "CLOSE_CORSAIR_ICUE"
+    },
+    {
+        "name": "Riot Vanguard",
+        "warning": "REMOVE_RIOT_VANGUARD"
     }
 ]
