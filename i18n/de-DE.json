@@ -107,6 +107,12 @@
         "Füge alt:V als Ausnahme bei Bitdefender hinzu"
       ]
     },
+    "REMOVE_RIOT_VANGUARD": {
+      "message": "Riot Vanguard blockiert möglicherweise die Ausführung von alt:V auf deinem System",
+      "possible-solutions": [
+        "Deinstalliere Riot Vanguard"
+      ]
+    },
     "CLOSE_OPERA_GX": {
       "message": "Opera GX kann dazu führen, dass alt:V nicht startet",
       "possible-solutions": [
